@@ -2,17 +2,13 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot;
+package com.coyotronics.frc2022;
+
+import com.coyotronics.frc2022.commands.Drive.TankDrive;
+import com.coyotronics.frc2022.subsystems.DriveBase;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
-
-import frc.robot.subsystems.DriveBase;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -21,14 +17,24 @@ import frc.robot.subsystems.DriveBase;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
-
+  /*
+    SUBSYTEMS
+  */
+  public static XboxController controller = new XboxController(Constants.Common.kController);
   private final DriveBase driveBase = new DriveBase();
 
-  public static XboxController controller = new XboxController(Constants.CONTROLLER);
+
+
+  /*
+    COMMANDS
+  */
+
+  // DirectionalDrive drive = new DirectionalDrive(driveBase);
+  // VelocityDrive drive = new VelocityDrive(driveBase)
+  TankDrive drive = new TankDrive(driveBase);
+
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -49,8 +55,8 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_autoCommand;
-  }
+  // public Command getAutonomousCommand() {
+  //   // An ExampleCommand will run in autonomous
+  //   // return m_autoCommand;
+  // }
 }
