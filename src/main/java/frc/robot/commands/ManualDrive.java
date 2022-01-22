@@ -10,10 +10,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /** An example command that uses an example subsystem. */
-public class TankDriveCommand extends CommandBase {
+public class ManualDrive extends CommandBase {
   private final DriveBase driveBase;
 
-  public TankDriveCommand(DriveBase db) {
+  public ManualDrive(DriveBase db) {
     this.driveBase = db;
     addRequirements(db);
   }
