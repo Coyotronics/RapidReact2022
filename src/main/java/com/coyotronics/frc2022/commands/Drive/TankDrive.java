@@ -1,5 +1,8 @@
 package com.coyotronics.frc2022.commands.Drive;
 
+import javax.xml.XMLConstants;
+
+import com.coyotronics.frc2022.Constants;
 import com.coyotronics.frc2022.RobotContainer;
 import com.coyotronics.frc2022.subsystems.DriveBase;
 import com.coyotronics.frc2022.util.Util;
@@ -13,6 +16,11 @@ public class TankDrive  {
     leftMotion = Util.MultiDeadBand(leftMotion);
     rightMotion = Util.MultiDeadBand(rightMotion);
     
+    if(Constants.ksafetyMode) {
+      leftMotion *= Constants.kSafetyMultiplier;
+      rightMotion *= Constants.kSafetyMultiplier;
+    }
+
     driveBase.tDrive(leftMotion, rightMotion);   
   }
 }
