@@ -33,10 +33,14 @@ public final class Constants {
 
     }
     public static class Drive {
-        public static final int kRightFrontMotor = 0;
-        public static final int kRightBackMotor = 0;
-        public static final int kLeftFrontMotor = 0;
-        public static final int kLeftBackMotor = 0;
+        public static final int kRightFrontMotor = 13;
+        public static final int kRightBackMotor = 12;
+        public static final int kLeftFrontMotor = 14;
+        public static final int kLeftBackMotor = 15;
 
+        public static final int kRFMID = 0;
+        public static final int kRBMID = 0;
+        public static final int kLFMID = 0;
+        public static final int kLBMID = 0;
     }
 }
