@@ -33,7 +33,7 @@ public class DirectionalDrive extends CommandBase {
         if(Math.abs(rotation) + Math.abs(translation) > 0)
             angle = (Math.abs(rotation) / (Math.abs(rotation) + Math.abs(translation)));
 
-        double motorOnePower = Math.abs(translation);
+        double motorOnePower = (2 * ( 1-angle)) - 1;
         double motorTwoPower = 1 - (2 * angle); //value between [-1...0...1]. 
                                                 // -1 means no Y
                                                 // 0 means X = Y
