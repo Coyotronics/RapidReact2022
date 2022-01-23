@@ -33,12 +33,15 @@ public class DriveBase extends SubsystemBase {
 
     CANSparkMax[] motors = {m_leftFrontMotor, m_leftBackMotor, m_rightFrontMotor, m_rightBackMotor}; //first 2 = left, second 2 = right;
 
-    for(CANSparkMax motor : motors)
+    for(CANSparkMax motor : motors){
       motor.restoreFactoryDefaults();
+    }
 
     //group motors
     leftMotors = new MotorControllerGroup(m_leftFrontMotor, m_leftBackMotor);
     rightMotors = new MotorControllerGroup(m_rightFrontMotor, m_rightBackMotor);
+
+    rightMotors.setInverted(true);
 
     //follow motors
     // m_leftBackMotor.follow(m_leftFrontMotor);
