@@ -4,7 +4,7 @@
 
 package com.coyotronics.frc2022.commands;
 
-import com.coyotronics.subsystems.ExampleSubsystem;
+import com.coyotronics.frc2022.subsystems.ExampleSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 

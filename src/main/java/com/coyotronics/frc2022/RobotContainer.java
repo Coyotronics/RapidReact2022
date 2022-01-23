@@ -4,11 +4,14 @@
 
 package com.coyotronics.frc2022;
 
-import com.coyotronics.frc2022.commands.Drive.TankDrive;
+import com.coyotronics.frc2022.commands.Drive.ManualDrive;
+import com.coyotronics.frc2022.commands.ExampleCommand;
 import com.coyotronics.frc2022.subsystems.DriveBase;
+import com.coyotronics.frc2022.subsystems.ExampleSubsystem;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -23,16 +26,16 @@ public class RobotContainer {
   */
   public static XboxController controller = new XboxController(Constants.Common.kController);
   private final DriveBase driveBase = new DriveBase();
+  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
-
+  
 
   /*
     COMMANDS
   */
 
-  // DirectionalDrive drive = new DirectionalDrive(driveBase);
-  // VelocityDrive drive = new VelocityDrive(driveBase)
-  TankDrive drive = new TankDrive(driveBase);
+  ManualDrive drive = new ManualDrive(driveBase);
+  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
 
 
@@ -55,8 +58,8 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  // public Command getAutonomousCommand() {
-  //   // An ExampleCommand will run in autonomous
-  //   // return m_autoCommand;
-  // }
+  public Command getAutonomousCommand() {
+    // An ExampleCommand will run in autonomous
+    return m_autoCommand;
+  }
 }

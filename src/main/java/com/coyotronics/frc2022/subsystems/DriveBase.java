@@ -47,8 +47,11 @@ public class DriveBase extends SubsystemBase {
     differentialDrive = new DifferentialDrive(leftMotors, rightMotors);
     
   }
-  public void drive(double left, double right) { //[-1...0...1] speed, speed, squareInputs = true
+  public void tDrive(double left, double right) { //[-1...0...1] speed, speed, squareInputs = true
     differentialDrive.tankDrive(left, right, true);
+  }
+  public void aDrive(double translational, double rotational) {
+    differentialDrive.arcadeDrive(translational, rotational);
   }
 
   

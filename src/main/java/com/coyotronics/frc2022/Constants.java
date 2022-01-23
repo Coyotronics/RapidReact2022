@@ -42,5 +42,13 @@ public final class Constants {
         public static final int kRBMID = 0;
         public static final int kLFMID = 0;
         public static final int kLBMID = 0;
+
+        public enum DriveType {
+            ARCADE, TANK;
+        }
+    }
+
+    public static class Vars {
+        public static Drive.DriveType cDriveType = Drive.DriveType.ARCADE;
     }
 }
