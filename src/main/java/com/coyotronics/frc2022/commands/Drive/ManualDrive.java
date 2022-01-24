@@ -25,10 +25,25 @@ public class ManualDrive extends CommandBase {
   }
 
     public void execute() {
-        if(Constants.Vars.cDriveType == Constants.Drive.DriveType.ARCADE)
-            DirectionalDrive.drive(this.driveBase);
-        else
-            TankDrive.drive(this.driveBase);  
+        // if(Constants.Vars.cDriveType == Constants.Drive.DriveType.ARCADE)
+        //     DirectionalDrive.drive(this.driveBase);
+        // else
+        //     TankDrive.drive(this.driveBase);  
+        double translation = RobotContainer.controller.getRawAxis(1); //[-1...0...1]
+        double rotation = RobotContainer.controller.getRawAxis(4);
+    
+       SmartDashboard.putNumber("Trans2", translation);
+       SmartDashboard.putNumber("Rot2", rotation);
+    
+        translation = Util.MultiDeadBand(translation);
+        rotation = Util.MultiDeadBand(rotation);
+        
+        if(Constants.ksafetyMode) {
+          rotation *= Constants.kSafetyMultiplier;
+          translation *= Constants.kSafetyMultiplier;
+        }
+    
+        driveBase.aDrive(translation, rotation); 
     }
     
 

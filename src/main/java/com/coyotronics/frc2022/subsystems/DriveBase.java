@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.coyotronics.frc2022.Constants;
 import com.revrobotics.CANSparkMax;
@@ -24,7 +25,8 @@ public class DriveBase extends SubsystemBase {
 
     private MotorControllerGroup leftMotors;
     private MotorControllerGroup rightMotors;
-
+  
+    private double value1 = 0, value2 = 0;
   public DriveBase() {
     m_leftFrontMotor = new CANSparkMax(Constants.Drive.kLeftFrontMotor, MotorType.kBrushless);
     m_leftBackMotor = new CANSparkMax(Constants.Drive.kLeftBackMotor, MotorType.kBrushless);
@@ -54,13 +56,18 @@ public class DriveBase extends SubsystemBase {
     differentialDrive.tankDrive(left, right, true);
   }
   public void aDrive(double translational, double rotational) {
-    differentialDrive.arcadeDrive(translational, rotational);
+    // differentialDrive.arcadeDrive(translational, rotational);
+    value1 = translational;
+    value2 = rotational;
   }
 
   
  @Override
   public void periodic() {
-   
+    SmartDashboard.putString("WORKING", "WORKING MOTOR");
+   differentialDrive.arcadeDrive(value1, value2);
+   SmartDashboard.putNumber("Trans", value1);
+   SmartDashboard.putNumber("Rot", value2);
   }
     
   @Override
