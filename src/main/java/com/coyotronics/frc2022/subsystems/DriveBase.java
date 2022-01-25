@@ -28,10 +28,10 @@ public class DriveBase extends SubsystemBase {
   
     private double value1 = 0, value2 = 0;
   public DriveBase() {
-    m_leftFrontMotor = new CANSparkMax(Constants.Drive.kLeftFrontMotor, MotorType.kBrushless);
-    m_leftBackMotor = new CANSparkMax(Constants.Drive.kLeftBackMotor, MotorType.kBrushless);
-    m_rightFrontMotor = new CANSparkMax(Constants.Drive.kRightFrontMotor, MotorType.kBrushless);
-    m_rightBackMotor = new CANSparkMax(Constants.Drive.kRightBackMotor, MotorType.kBrushless);
+    m_leftFrontMotor = new CANSparkMax(Constants.Drive.kLeftFrontMotor, MotorType.kBrushed);
+    m_leftBackMotor = new CANSparkMax(Constants.Drive.kLeftBackMotor, MotorType.kBrushed);
+    m_rightFrontMotor = new CANSparkMax(Constants.Drive.kRightFrontMotor, MotorType.kBrushed);
+    m_rightBackMotor = new CANSparkMax(Constants.Drive.kRightBackMotor, MotorType.kBrushed);
 
     CANSparkMax[] motors = {m_leftFrontMotor, m_leftBackMotor, m_rightFrontMotor, m_rightBackMotor}; //first 2 = left, second 2 = right;
 
