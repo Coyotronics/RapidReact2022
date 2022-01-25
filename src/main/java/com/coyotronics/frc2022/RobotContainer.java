@@ -26,7 +26,6 @@ public class RobotContainer {
   */
   public static XboxController controller = new XboxController(Constants.Common.kController);
   private final DriveBase driveBase = new DriveBase();
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   
 
@@ -35,14 +34,18 @@ public class RobotContainer {
   */
 
   ManualDrive drive = new ManualDrive(driveBase);
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
+    setDefaults();
     configureButtonBindings();
+  }
+
+  public void setDefaults() {
+    driveBase.setDefaultCommand(drive);
   }
 
   /**
@@ -60,6 +63,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return null;
   }
 }

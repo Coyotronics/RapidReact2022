@@ -10,10 +10,12 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.coyotronics.frc2022.Constants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 public class DriveBase extends SubsystemBase {
     private DifferentialDrive differentialDrive;
 
@@ -25,11 +27,12 @@ public class DriveBase extends SubsystemBase {
     private MotorControllerGroup leftMotors;
     private MotorControllerGroup rightMotors;
 
+    private double motorspeed1 = 0, motorspeed2 = 0;
   public DriveBase() {
-    m_leftFrontMotor = new CANSparkMax(Constants.Drive.kLeftFrontMotor, MotorType.kBrushless);
-    m_leftBackMotor = new CANSparkMax(Constants.Drive.kLeftBackMotor, MotorType.kBrushless);
-    m_rightFrontMotor = new CANSparkMax(Constants.Drive.kRightFrontMotor, MotorType.kBrushless);
-    m_rightBackMotor = new CANSparkMax(Constants.Drive.kRightBackMotor, MotorType.kBrushless);
+    m_leftFrontMotor = new CANSparkMax(Constants.Drive.kLeftFrontMotor, MotorType.kBrushed);
+    m_leftBackMotor = new CANSparkMax(Constants.Drive.kLeftBackMotor, MotorType.kBrushed);
+    m_rightFrontMotor = new CANSparkMax(Constants.Drive.kRightFrontMotor, MotorType.kBrushed);
+    m_rightBackMotor = new CANSparkMax(Constants.Drive.kRightBackMotor, MotorType.kBrushed);
 
     CANSparkMax[] motors = {m_leftFrontMotor, m_leftBackMotor, m_rightFrontMotor, m_rightBackMotor}; //first 2 = left, second 2 = right;
 
@@ -54,13 +57,20 @@ public class DriveBase extends SubsystemBase {
     differentialDrive.tankDrive(left, right, true);
   }
   public void aDrive(double translational, double rotational) {
-    differentialDrive.arcadeDrive(translational, rotational);
+      this.motorspeed1 = translational;
+      this.motorspeed2 = translational;
+  }
+  private void aAdriveHelper() {
+    differentialDrive.arcadeDrive(motorspeed1, motorspeed2);
   }
 
   
  @Override
   public void periodic() {
-   
+      aAdriveHelper();
+
+      SmartDashboard.putNumber("Motor Speed 1", motorspeed1);
+      SmartDashboard.putNumber("Motor Speed 2", motorspeed2);
   }
     
   @Override

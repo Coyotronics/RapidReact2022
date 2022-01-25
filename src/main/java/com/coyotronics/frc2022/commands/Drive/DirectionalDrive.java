@@ -4,6 +4,7 @@ import com.coyotronics.frc2022.RobotContainer;
 import com.coyotronics.frc2022.subsystems.DriveBase;
 import com.coyotronics.frc2022.util.Util;
 import com.coyotronics.frc2022.Constants;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj.XboxController;
 public class DirectionalDrive  {
@@ -18,6 +19,9 @@ public class DirectionalDrive  {
       rotation *= Constants.kSafetyMultiplier;
       translation *= Constants.kSafetyMultiplier;
     }
+
+    SmartDashboard.putNumber("Xbox Left Y", translation);
+    SmartDashboard.putNumber("Xbox Right X", rotation);
 
     driveBase.aDrive(translation, rotation);   
   }
