@@ -21,7 +21,7 @@ public class ManualDrive extends CommandBase {
   }
 
   public void initialize() {
-      driveBase.aDrive(0, 0);
+    this.driveBase.setMotorSpeeds(0, 0);
   }
 
     public void execute() {
@@ -30,19 +30,8 @@ public class ManualDrive extends CommandBase {
         else
             TankDrive.drive(this.driveBase);  
     }
-    
-
-    public void switchDriveTypes() {
-        if(Constants.Vars.cDriveType == Constants.Drive.DriveType.ARCADE) {
-            Constants.Vars.cDriveType = Constants.Drive.DriveType.TANK;
-        } else {
-            Constants.Vars.cDriveType = Constants.Drive.DriveType.ARCADE;
-        }
-        SmartDashboard.putString("CHANGED DRIVE TYPE -> ", Constants.Vars.cDriveType.toString());
-    }
-
     public void end(boolean interrupted) {
-        driveBase.aDrive(0, 0);
+        this.driveBase.setMotorSpeeds(0, 0);
     }
      public boolean isFinished() {
         return false;

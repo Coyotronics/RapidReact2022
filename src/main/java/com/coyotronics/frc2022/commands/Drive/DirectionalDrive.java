@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.XboxController;
 public class DirectionalDrive  {
   public static void drive(DriveBase driveBase) {
-    double translation = RobotContainer.controller.getRawAxis(1); //[-1...0...1]
-    double rotation = RobotContainer.controller.getRawAxis(4);
+    double translation = RobotContainer.controller.getRawAxis(Constants.Controller.LEFT_STICK_Y); //[-1...0...1]
+    double rotation = RobotContainer.controller.getRawAxis(Constants.Controller.RIGHT_STICK_X);
 
     translation = Util.MultiDeadBand(translation);
     rotation = Util.MultiDeadBand(rotation);
@@ -25,6 +25,6 @@ public class DirectionalDrive  {
     SmartDashboard.putNumber("Xbox Left Y", translation);
     SmartDashboard.putNumber("Xbox Right X", rotation);
 
-    driveBase.aDrive(translation, rotation);   
+    driveBase.setMotorSpeeds(translation, rotation);   
   }
 }

@@ -26,7 +26,15 @@ public final class Constants {
     public static final boolean kCompetitionMode = false;
     public static final boolean ksafetyMode = true; 
     public static final double kSafetyMultiplier = 0.5; //MAKE SURE BETWEEN 0 AND 1
+    
+    public static class Controller {
+        public static final int LEFT_STICK_X = 0;
+	    public static final int LEFT_STICK_Y = 1;
+	    public static final int RIGHT_STICK_X = 4;
+	    public static final int RIGHT_STICK_Y = 5;
 
+        public static final int RIGHT_BUMPER = 6;
+    }
     public static class Common {
         public static final int kController = 0;
     }

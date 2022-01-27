@@ -5,13 +5,16 @@
 package com.coyotronics.frc2022;
 
 import com.coyotronics.frc2022.commands.Drive.ManualDrive;
+import com.coyotronics.frc2022.commands.Drive.SwitchDriveType;
 import com.coyotronics.frc2022.commands.ExampleCommand;
 import com.coyotronics.frc2022.subsystems.DriveBase;
 import com.coyotronics.frc2022.subsystems.ExampleSubsystem;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -35,6 +38,11 @@ public class RobotContainer {
 
   ManualDrive drive = new ManualDrive(driveBase);
 
+  /*
+  BUTTONS
+  */
+
+  private final JoystickButton switchDriveType = new JoystickButton(controller, Constants.Controller.RIGHT_BUMPER);
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -54,7 +62,9 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+    switchDriveType.whenPressed(new SwitchDriveType(this.driveBase));
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

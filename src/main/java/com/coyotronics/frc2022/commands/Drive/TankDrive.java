@@ -21,6 +21,6 @@ public class TankDrive  {
       rightMotion *= Constants.kSafetyMultiplier;
     }
 
-    driveBase.tDrive(leftMotion, rightMotion);   
+    driveBase.setMotorSpeeds(leftMotion, rightMotion);   
   }
 }

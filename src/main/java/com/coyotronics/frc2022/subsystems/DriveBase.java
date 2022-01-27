@@ -46,31 +46,32 @@ public class DriveBase extends SubsystemBase {
 
     rightMotors.setInverted(true);
 
-    //follow motors
-    // m_leftBackMotor.follow(m_leftFrontMotor);
-    // m_rightBackMotor.follow(m_rightFrontMotor);
-
     differentialDrive = new DifferentialDrive(leftMotors, rightMotors);
     
   }
-  public void tDrive(double left, double right) { //[-1...0...1] speed, speed, squareInputs = true
+  public void tankDrive(double left, double right) { //[-1...0...1] speed, speed, squareInputs = true
     differentialDrive.tankDrive(left, right, true);
   }
-  public void aDrive(double translational, double rotational) {
-      this.motorspeed1 = translational;
-      this.motorspeed2 = rotational;
+  public void arcadeDrive(double translational, double rotational) {
+      differentialDrive.arcadeDrive(translational, rotational, true);
   }
-  private void aAdriveHelper() {
-    differentialDrive.arcadeDrive(motorspeed1, motorspeed2);
+  public void setMotorSpeeds(double one, double two) {
+    this.motorspeed1 = one;
+    this.motorspeed2 = two;
+  } 
+  private void periodicDrive() {
+    if(Constants.Vars.cDriveType == Constants.Drive.DriveType.ARCADE)
+      arcadeDrive(this.motorspeed1, this.motorspeed2);
+    if(Constants.Vars.cDriveType == Constants.Drive.DriveType.TANK)
+      tankDrive(this.motorspeed1, this.motorspeed2);
     
     SmartDashboard.putNumber("Motor Speed 1", motorspeed1);
     SmartDashboard.putNumber("Motor Speed 2", motorspeed2);
   }
 
-  
  @Override
   public void periodic() {
-      aAdriveHelper();
+      periodicDrive();
   }
     
   @Override
