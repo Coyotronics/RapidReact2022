@@ -58,19 +58,19 @@ public class DriveBase extends SubsystemBase {
   }
   public void aDrive(double translational, double rotational) {
       this.motorspeed1 = translational;
-      this.motorspeed2 = translational;
+      this.motorspeed2 = rotational;
   }
   private void aAdriveHelper() {
     differentialDrive.arcadeDrive(motorspeed1, motorspeed2);
+    
+    SmartDashboard.putNumber("Motor Speed 1", motorspeed1);
+    SmartDashboard.putNumber("Motor Speed 2", motorspeed2);
   }
 
   
  @Override
   public void periodic() {
       aAdriveHelper();
-
-      SmartDashboard.putNumber("Motor Speed 1", motorspeed1);
-      SmartDashboard.putNumber("Motor Speed 2", motorspeed2);
   }
     
   @Override

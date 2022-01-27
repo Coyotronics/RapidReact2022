@@ -25,7 +25,7 @@ public final class Constants {
      */
     public static final boolean kCompetitionMode = false;
     public static final boolean ksafetyMode = true; 
-    public static final double kSafetyMultiplier = 0.25; //MAKE SURE BETWEEN 0 AND 1
+    public static final double kSafetyMultiplier = 0.5; //MAKE SURE BETWEEN 0 AND 1
 
     public static class Common {
         public static final int kController = 0;
