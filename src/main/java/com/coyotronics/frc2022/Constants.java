@@ -57,12 +57,12 @@ public final class Constants {
 
     }
     public static class Intake {
-        public static final int kIntakeMotor = 0;
-        public static final int kIntakeSpeed = 0;
+        public static final int kIntakeMotor = 18;
+        public static final double kIntakeSpeed = 0.3;
     }
     public static class Shooter {
-        public static final int kStorageMotor = 0;
-        public static final int kDischargeMotor = 0;
+        public static final int kStorageMotor = 20;
+        public static final int kDischargeMotor = 19;
         public static final double kReductionMultiplier = 0.3;
         public static final double kTransportSpeed = 0.2;
         public static final double kDischargeSpeedLowHub = 0.3;

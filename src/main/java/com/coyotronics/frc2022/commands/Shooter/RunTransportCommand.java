@@ -1,6 +1,5 @@
 package com.coyotronics.frc2022.commands.Shooter;
 
-import com.coyotronics.frc2022.subsystems.DischargeSubsystem;
 import com.coyotronics.frc2022.subsystems.TransportSubsystem;
 import com.coyotronics.frc2022.Constants;
 
