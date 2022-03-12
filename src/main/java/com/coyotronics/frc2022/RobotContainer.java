@@ -46,7 +46,7 @@ public class RobotContainer {
   BUTTONS
   */
 
-  private final JoystickButton switchDriveType = new JoystickButton(controller, Constants.Controller.X);
+  // private final JoystickButton switchDriveType = new JoystickButton(controller, Constants.Controller.X);
   private final JoystickButton shooterDischargeHighButton = new JoystickButton(controller, Constants.Controller.RIGHT_BUMPER);
   private final JoystickButton shooterDischargeLowButton = new JoystickButton(controller, Constants.Controller.LEFT_BUMPER);
   private final JoystickButton shooterTransportButton = new JoystickButton(controller, Constants.Controller.B);
@@ -71,7 +71,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    switchDriveType.whenPressed(new SwitchDriveType(this.driveBase));
+    // switchDriveType.whenPressed(new SwitchDriveType(this.driveBase));
     shooterDischargeHighButton.whenHeld(new ShootCommand(this.shooter, Constants.Shooter.ShootType.HIGH));
     shooterDischargeLowButton.whenHeld(new ShootCommand(this.shooter, Constants.Shooter.ShootType.LOW));
     shooterTransportButton.whenHeld(new StartEndCommand(this.transport::run, this.transport::stop, this.transport));

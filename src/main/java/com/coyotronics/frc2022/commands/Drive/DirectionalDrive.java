@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DirectionalDrive  {
   public static void drive(DriveBaseSubsystem driveBase) {
     double translation = RobotContainer.controller.getRawAxis(Constants.Controller.LEFT_STICK_Y); //[-1...0...1]
-    double rotation = RobotContainer.controller.getRawAxis(Constants.Controller.RIGHT_STICK_X);
+    double rotation = -RobotContainer.controller.getRawAxis(Constants.Controller.RIGHT_STICK_X);
 
     translation = Util.MultiDeadBand(translation);
     rotation = Util.MultiDeadBand(rotation);
