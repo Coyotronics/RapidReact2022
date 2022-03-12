@@ -6,13 +6,19 @@ package com.coyotronics.frc2022;
 
 import com.coyotronics.frc2022.commands.Drive.ManualDrive;
 import com.coyotronics.frc2022.commands.Drive.SwitchDriveType;
-import com.coyotronics.frc2022.commands.ExampleCommand;
-import com.coyotronics.frc2022.subsystems.DriveBase;
-import com.coyotronics.frc2022.subsystems.ExampleSubsystem;
+import com.coyotronics.frc2022.commands.Intake.IntakeCommand;
+import com.coyotronics.frc2022.commands.Shooter.ShootCommand;
+import com.coyotronics.frc2022.commands.Shooter.RunTransportCommand;
+
+
+import com.coyotronics.frc2022.subsystems.DischargeSubsystem;
+import com.coyotronics.frc2022.subsystems.DriveBaseSubsystem;
+import com.coyotronics.frc2022.subsystems.IntakeSubsystem;
+import com.coyotronics.frc2022.subsystems.TransportSubsystem;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.simulation.JoystickSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 /**
@@ -28,9 +34,10 @@ public class RobotContainer {
     SUBSYTEMS
   */
   public static XboxController controller = new XboxController(Constants.Common.kController);
-  private final DriveBase driveBase = new DriveBase();
-
-  
+  private final DriveBaseSubsystem driveBase = new DriveBaseSubsystem();
+  private final DischargeSubsystem shooter = new DischargeSubsystem();
+  private final TransportSubsystem transport = new TransportSubsystem();
+  private final IntakeSubsystem intake = new IntakeSubsystem();
 
   /*
     COMMANDS
@@ -42,8 +49,12 @@ public class RobotContainer {
   BUTTONS
   */
 
-  private final JoystickButton switchDriveType = new JoystickButton(controller, Constants.Controller.RIGHT_BUMPER);
-
+  private final JoystickButton switchDriveType = new JoystickButton(controller, Constants.Controller.X);
+  private final JoystickButton shooterDischargeHighButton = new JoystickButton(controller, Constants.Controller.RIGHT_BUMPER);
+  private final JoystickButton shooterDischargeLowButton = new JoystickButton(controller, Constants.Controller.LEFT_BUMPER);
+  private final JoystickButton shooterTransportButton = new JoystickButton(controller, Constants.Controller.B);
+  private final JoystickButton intakeButton = new JoystickButton(controller, Constants.Controller.Y);
+  // private final JoystickButton shooterStorageReverseButton = new JoystickButton(controller, Constants.Controller.BACK);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -64,6 +75,10 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     switchDriveType.whenPressed(new SwitchDriveType(this.driveBase));
+    shooterDischargeHighButton.whenHeld(new ShootCommand(this.shooter, Constants.Shooter.ShootType.HIGH));
+    shooterDischargeLowButton.whenHeld(new ShootCommand(this.shooter, Constants.Shooter.ShootType.LOW));
+    shooterTransportButton.whenHeld(new RunTransportCommand(this.transport));
+    intakeButton.whenHeld(new IntakeCommand(this.intake));
   }
 
   /**
@@ -72,6 +87,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    
     // An ExampleCommand will run in autonomous
     return null;
   }

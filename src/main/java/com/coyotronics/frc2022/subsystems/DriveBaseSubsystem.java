@@ -16,7 +16,7 @@ import com.coyotronics.frc2022.Constants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-public class DriveBase extends SubsystemBase {
+public class DriveBaseSubsystem extends SubsystemBase {
     private DifferentialDrive differentialDrive;
 
     private CANSparkMax m_rightFrontMotor;
@@ -28,7 +28,7 @@ public class DriveBase extends SubsystemBase {
     private MotorControllerGroup rightMotors;
 
     private double motorspeed1 = 0, motorspeed2 = 0;
-  public DriveBase() {
+  public DriveBaseSubsystem() {
     m_leftFrontMotor = new CANSparkMax(Constants.Drive.kLeftFrontMotor, MotorType.kBrushed);
     m_leftBackMotor = new CANSparkMax(Constants.Drive.kLeftBackMotor, MotorType.kBrushed);
     m_rightFrontMotor = new CANSparkMax(Constants.Drive.kRightFrontMotor, MotorType.kBrushed);

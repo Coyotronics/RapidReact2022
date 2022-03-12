@@ -28,12 +28,26 @@ public final class Constants {
     public static final double kSafetyMultiplier = 0.5; //MAKE SURE BETWEEN 0 AND 1
     
     public static class Controller {
-        public static final int LEFT_STICK_X = 0;
-	    public static final int LEFT_STICK_Y = 1;
-	    public static final int RIGHT_STICK_X = 4;
-	    public static final int RIGHT_STICK_Y = 5;
+        public static final int LEFT_STICK_X = 0; // foward
+	    public static final int LEFT_STICK_Y = 1; // backward
+	    public static final int RIGHT_STICK_X = 4; //right
+	    public static final int RIGHT_STICK_Y = 5; //left
 
-        public static final int RIGHT_BUMPER = 6;
+        public static final int LEFT_TRIGGER = 2; //left
+        public static final int RIGHT_TRIGGER = 3; //left
+
+        public static final int RIGHT_BUMPER = 6; //switch drive type
+        public static final int LEFT_BUMPER = 5; 
+
+        public static final int A = 1;
+	    public static final int B = 2;
+	    public static final int X = 3;
+	    public static final int Y = 4;
+
+        public static final int BACK = 7;
+        public static final int START = 8;
+        public static final int RIGHT = 9;
+        public static final int LEFT = 10;
     }
     public static class Common {
         public static final int kController = 0;
@@ -42,16 +56,27 @@ public final class Constants {
     public static class Auto {
 
     }
+    public static class Intake {
+        public static final int kIntakeMotor = 0;
+        public static final int kIntakeSpeed = 0;
+    }
+    public static class Shooter {
+        public static final int kStorageMotor = 0;
+        public static final int kDischargeMotor = 0;
+        public static final double kReductionMultiplier = 0.3;
+        public static final double kTransportSpeed = 0.2;
+        public static final double kDischargeSpeedLowHub = 0.3;
+        public static final double kDischargeSpeedHighHub = 0.6;
+
+        public enum ShootType {
+            HIGH, LOW;
+        }
+    }
     public static class Drive {
         public static final int kRightFrontMotor = 13;
         public static final int kRightBackMotor = 12;
         public static final int kLeftFrontMotor = 14;
         public static final int kLeftBackMotor = 15;
-
-        public static final int kRFMID = 0;
-        public static final int kRBMID = 0;
-        public static final int kLFMID = 0;
-        public static final int kLBMID = 0;
 
         public enum DriveType {
             ARCADE, TANK;

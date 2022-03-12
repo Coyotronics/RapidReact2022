@@ -1,21 +1,14 @@
 package com.coyotronics.frc2022.commands.Drive;
 
-import com.coyotronics.frc2022.RobotContainer;
-import com.coyotronics.frc2022.subsystems.DriveBase;
-import com.coyotronics.frc2022.util.Util;
+import com.coyotronics.frc2022.subsystems.DriveBaseSubsystem;
 import com.coyotronics.frc2022.Constants;
 
-import org.opencv.core.Mat;
-
-import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ManualDrive extends CommandBase {
-  private final DriveBase driveBase;
+  private final DriveBaseSubsystem driveBase;
 
-  public ManualDrive(DriveBase db) {
+  public ManualDrive(DriveBaseSubsystem db) {
     this.driveBase = db;
     addRequirements(db);
   }

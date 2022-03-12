@@ -1,14 +1,14 @@
 package com.coyotronics.frc2022.commands.Drive;
 
-import com.coyotronics.frc2022.subsystems.DriveBase;
+import com.coyotronics.frc2022.subsystems.DriveBaseSubsystem;
 import com.coyotronics.frc2022.Constants;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwitchDriveType extends CommandBase {
-    public DriveBase db;
-    public SwitchDriveType(DriveBase db) { 
+    public DriveBaseSubsystem db;
+    public SwitchDriveType(DriveBaseSubsystem db) { 
         this.db = db;
     }
     public void initialize() {
