@@ -8,6 +8,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class IntakeSubsystem extends ToggleSubsystem {
   public IntakeSubsystem() {
-    super(Constants.Intake.kIntakeMotor, Constants.Intake.kIntakeSpeed);
+    super(Constants.Intake.kIntakeMotor, -Constants.Intake.kIntakeSpeed);
   }
 }

@@ -66,7 +66,7 @@ public final class Constants {
         public static final double kReductionMultiplier = 0.3;
         public static final double kTransportSpeed = 0.2;
         public static final double kDischargeSpeedLowHub = 0.3;
-        public static final double kDischargeSpeedHighHub = 0.6;
+        public static final double kDischargeSpeedHighHub = 1;
 
         public enum ShootType {
             HIGH, LOW;

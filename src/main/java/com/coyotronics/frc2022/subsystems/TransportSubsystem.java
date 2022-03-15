@@ -9,6 +9,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 public class TransportSubsystem extends ToggleSubsystem {
   
     public TransportSubsystem() {
-      super(Constants.Shooter.kStorageMotor, Constants.Shooter.kTransportSpeed);
+      super(Constants.Shooter.kStorageMotor, -Constants.Shooter.kTransportSpeed);
     }
 }
