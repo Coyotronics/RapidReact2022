@@ -5,9 +5,6 @@
 package com.coyotronics.frc2022.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.CAN;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,7 +24,6 @@ public class DriveBaseSubsystem extends SubsystemBase {
     private MotorControllerGroup leftMotors;
     private MotorControllerGroup rightMotors;
 
-    private double motorspeed1 = 0, motorspeed2 = 0;
   public DriveBaseSubsystem() {
     m_leftFrontMotor = new CANSparkMax(Constants.Drive.kLeftFrontMotor, MotorType.kBrushed);
     m_leftBackMotor = new CANSparkMax(Constants.Drive.kLeftBackMotor, MotorType.kBrushed);

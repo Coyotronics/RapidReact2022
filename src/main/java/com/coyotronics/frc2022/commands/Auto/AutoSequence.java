@@ -18,10 +18,9 @@ public class AutoSequence extends SequentialCommandGroup {
         addCommands(
             new ReleaseIntake(drive),
             new RotateTo(drive, 180),
-            new DriveTo(drive, 10),
-            new DriveAndIntake(drive, intake, transport, 2, 3000),
+            new DriveAndIntake(drive, intake, transport, 6, 10000),
             new RotateTo(drive, 180),
-            new DriveTo(drive, 12),
+            new DriveTo(drive, 15),
             new Shoot(transport, shooter, 5)
         );
     }
