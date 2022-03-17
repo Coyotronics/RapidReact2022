@@ -49,8 +49,12 @@ public class DriveBaseSubsystem extends SubsystemBase {
     differentialDrive.tankDrive(left, right, true);
   }
   public void arcadeDrive(double translational, double rotational) {
+    SmartDashboard.putNumber("Foward", translational);
     SmartDashboard.putNumber("Turning", rotational);
     differentialDrive.arcadeDrive(translational, rotational, true);
+  }
+  public void arcadeDriveAuto(double translational, double rotational) {
+    differentialDrive.arcadeDrive(translational, rotational, false);
   }
   // public void setMotorSpeeds(double one, double two) {
   //   this.motorspeed1 = one;
