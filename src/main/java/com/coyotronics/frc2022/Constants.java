@@ -54,7 +54,7 @@ public final class Constants {
     }
 
     public static class Auto {
-
+        
     }
     public static class Intake {
         public static final int kIntakeMotor = 18;

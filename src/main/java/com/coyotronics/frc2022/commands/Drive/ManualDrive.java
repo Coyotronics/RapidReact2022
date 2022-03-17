@@ -1,7 +1,7 @@
 package com.coyotronics.frc2022.commands.Drive;
 
 import com.coyotronics.frc2022.Constants;
-import com.coyotronics.frc2022.Examples.DriveBaseSubsystem;
+import com.coyotronics.frc2022.subsystems.DriveBaseSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -24,7 +24,7 @@ public class ManualDrive extends CommandBase {
             TankDrive.drive(this.driveBase);  
     }
     public void end(boolean interrupted) {
-        this.driveBase.setMotorSpeeds(0, 0);
+        this.driveBase.stop();
     }
      public boolean isFinished() {
         return false;

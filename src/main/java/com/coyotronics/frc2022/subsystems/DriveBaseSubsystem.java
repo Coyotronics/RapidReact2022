@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package com.coyotronics.frc2022.Examples;
+package com.coyotronics.frc2022.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.CAN;
@@ -53,25 +53,31 @@ public class DriveBaseSubsystem extends SubsystemBase {
     differentialDrive.tankDrive(left, right, true);
   }
   public void arcadeDrive(double translational, double rotational) {
-      differentialDrive.arcadeDrive(translational, rotational, true);
+    differentialDrive.arcadeDrive(translational, rotational, true);
   }
-  public void setMotorSpeeds(double one, double two) {
-    this.motorspeed1 = one;
-    this.motorspeed2 = two;
-  } 
-  private void periodicDrive() {
-    if(Constants.Vars.cDriveType == Constants.Drive.DriveType.ARCADE)
-      arcadeDrive(this.motorspeed1, this.motorspeed2);
-    if(Constants.Vars.cDriveType == Constants.Drive.DriveType.TANK)
-      tankDrive(this.motorspeed1, this.motorspeed2);
+  // public void setMotorSpeeds(double one, double two) {
+  //   this.motorspeed1 = one;
+  //   this.motorspeed2 = two;
+  // } 
+  // private void periodicDrive() {
+  //   if(Constants.Vars.cDriveType == Constants.Drive.DriveType.ARCADE)
+  //     arcadeDrive(this.motorspeed1, this.motorspeed2);
+  //   if(Constants.Vars.cDriveType == Constants.Drive.DriveType.TANK)
+  //     tankDrive(this.motorspeed1, this.motorspeed2);
     
-    SmartDashboard.putNumber("Motor Speed 1", motorspeed1);
-    SmartDashboard.putNumber("Motor Speed 2", motorspeed2);
+  //   SmartDashboard.putNumber("Motor Speed 1", motorspeed1);
+  //   SmartDashboard.putNumber("Motor Speed 2", motorspeed2);
+  // }
+  public void stop() {
+    if(Constants.Vars.cDriveType == Constants.Drive.DriveType.ARCADE)
+      arcadeDrive(0, 0);
+    else
+      tankDrive(0, 0);
   }
 
  @Override
   public void periodic() {
-      periodicDrive();
+      // periodicDrive();
   }
     
   @Override
