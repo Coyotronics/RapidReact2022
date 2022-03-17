@@ -1,4 +1,4 @@
-package com.coyotronics.frc2022.commands.Auto;
+package com.coyotronics.frc2022.commands.Auto.SubsytemInterfaces;
 
 import com.coyotronics.frc2022.subsystems.IntakeSubsystem;
 import com.coyotronics.frc2022.Constants;

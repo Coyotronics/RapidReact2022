@@ -25,7 +25,7 @@ public final class Constants {
      */
     public static final boolean kCompetitionMode = false;
     public static final boolean ksafetyMode = true; 
-    public static final double kSafetyMultiplier = 0.5; //MAKE SURE BETWEEN 0 AND 1
+    public static final double kSafetyMultiplier = 0.75; //MAKE SURE BETWEEN 0 AND 1
     
     public static class Controller {
         public static final int LEFT_STICK_X = 0; // foward
@@ -58,7 +58,7 @@ public final class Constants {
     }
     public static class Intake {
         public static final int kIntakeMotor = 18;
-        public static final double kIntakeSpeed = 0.3;
+        public static final double kIntakeSpeed = 0.5;
     }
     public static class Shooter {
         public static final int kStorageMotor = 20;
@@ -85,5 +85,6 @@ public final class Constants {
 
     public static class Vars {
         public static Drive.DriveType cDriveType = Drive.DriveType.ARCADE;
+        public static int cam = 0; //0 = field, 1 = intake
     }
 }

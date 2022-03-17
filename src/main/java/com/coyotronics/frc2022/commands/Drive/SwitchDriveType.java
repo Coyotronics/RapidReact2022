@@ -18,7 +18,7 @@ public class SwitchDriveType extends CommandBase {
             Constants.Vars.cDriveType = Constants.Drive.DriveType.ARCADE;
         }
         this.db.stop();
-        SmartDashboard.putString("DRIVE TYPE", Constants.Vars.cDriveType.toString());
+        // SmartDashboard.putString("DRIVE TYPE", Constants.Vars.cDriveType.toString());
     }
     public boolean isFinished() { return true;}
 }
