@@ -6,10 +6,7 @@ package com.coyotronics.frc2022;
 
 import com.coyotronics.frc2022.commands.Drive.ManualDrive;
 import com.coyotronics.frc2022.commands.Drive.SwitchDriveType;
-import com.coyotronics.frc2022.commands.Intake.IntakeCommand;
 import com.coyotronics.frc2022.commands.Shooter.ShootCommand;
-import com.coyotronics.frc2022.commands.Shooter.RunTransportCommand;
-
 
 import com.coyotronics.frc2022.subsystems.DischargeSubsystem;
 import com.coyotronics.frc2022.subsystems.DriveBaseSubsystem;
@@ -19,6 +16,7 @@ import com.coyotronics.frc2022.subsystems.TransportSubsystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -48,7 +46,7 @@ public class RobotContainer {
   BUTTONS
   */
 
-  private final JoystickButton switchDriveType = new JoystickButton(controller, Constants.Controller.X);
+  // private final JoystickButton switchDriveType = new JoystickButton(controller, Constants.Controller.X);
   private final JoystickButton shooterDischargeHighButton = new JoystickButton(controller, Constants.Controller.RIGHT_BUMPER);
   private final JoystickButton shooterDischargeLowButton = new JoystickButton(controller, Constants.Controller.LEFT_BUMPER);
   private final JoystickButton shooterTransportButton = new JoystickButton(controller, Constants.Controller.B);
@@ -73,11 +71,11 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    switchDriveType.whenPressed(new SwitchDriveType(this.driveBase));
+    // switchDriveType.whenPressed(new SwitchDriveType(this.driveBase));
     shooterDischargeHighButton.whenHeld(new ShootCommand(this.shooter, Constants.Shooter.ShootType.HIGH));
     shooterDischargeLowButton.whenHeld(new ShootCommand(this.shooter, Constants.Shooter.ShootType.LOW));
-    shooterTransportButton.whenHeld(new RunTransportCommand(this.transport));
-    intakeButton.whenHeld(new IntakeCommand(this.intake));
+    shooterTransportButton.whenHeld(new StartEndCommand(this.transport::run, this.transport::stop, this.transport));
+    intakeButton.whenHeld(new StartEndCommand(this.intake::run, this.intake::stop, this.intake));
   }
 
   /**
