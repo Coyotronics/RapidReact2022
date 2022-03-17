@@ -14,7 +14,7 @@ public class ManualDrive extends CommandBase {
   }
 
   public void initialize() {
-    this.driveBase.setMotorSpeeds(0, 0);
+    this.driveBase.stop();
   }
 
     public void execute() {

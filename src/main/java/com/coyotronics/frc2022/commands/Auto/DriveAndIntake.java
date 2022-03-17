@@ -15,6 +15,10 @@ import com.coyotronics.frc2022.commands.Auto.DriveTo;
 
 public class DriveAndIntake extends ParallelCommandGroup { 
     public DriveAndIntake(DriveBaseSubsystem driveBase, IntakeSubsystem intake, TransportSubsystem transport, double distance, double time) {
-        addCommands(new RunIntake(intake, 3000), new DriveTo(driveBase, 1000));
+        addCommands(
+            new RunIntake(intake, time), 
+            new RunTransport(transport, time),
+            new DriveTo(driveBase, distance)
+        );
     }
 }
