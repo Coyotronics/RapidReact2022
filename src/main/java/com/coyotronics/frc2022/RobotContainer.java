@@ -8,6 +8,7 @@ import com.coyotronics.frc2022.commands.Drive.ManualDrive;
 import com.coyotronics.frc2022.commands.Drive.SwitchDriveType;
 import com.coyotronics.frc2022.commands.Shooter.ShootCommand;
 import com.coyotronics.frc2022.commands.Auto.AutoSequence;
+import com.coyotronics.frc2022.commands.Auto.Groups.Shoot;
 import com.coyotronics.frc2022.commands.SwitchCameraCommand;
 import com.coyotronics.frc2022.commands.Auto.SubsytemInterfaces.*;
 import com.coyotronics.frc2022.subsystems.DischargeSubsystem;
@@ -22,7 +23,7 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
+// import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -30,7 +31,6 @@ import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
-import edu.wpi.first.cscore.UsbCamera;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
@@ -44,7 +44,7 @@ public class RobotContainer {
   private final TransportSubsystem transport = new TransportSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
   private UsbCamera camField;
-  private UsbCamera camIntake;
+  // private UsbCamera camIntake;
 
   /*
     COMMANDS
@@ -63,7 +63,9 @@ public class RobotContainer {
   private final JoystickButton shooterTransportButton = new JoystickButton(controller, Constants.Controller.B);
   private final JoystickButton shooterTransportBackButton = new JoystickButton(controller, Constants.Controller.X);
   private final JoystickButton intakeButton = new JoystickButton(controller, Constants.Controller.Y);
+  private final JoystickButton shootButton = new JoystickButton(controller, Constants.Controller.LEFT_BUMPER);
   private final JoystickButton test = new JoystickButton(controller, Constants.Controller.A);
+  // private final JoystickButton shootButton = new JoystickButton(controller, Constants.Controller.A);
   // private final JoystickButton shooterStorageReverseButton = new JoystickButton(controller, Constants.Controller.BACK);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -108,6 +110,7 @@ public class RobotContainer {
     shooterTransportBackButton.whenHeld(new StartEndCommand(this.transport::runBackward, this.transport::stop, this.transport));
     intakeButton.whenHeld(new StartEndCommand(this.intake::run, this.intake::stop, this.intake));
     test.whenPressed(new DriveTo(driveBase, 3));
+    shootButton.whenPressed(new Shoot(transport, shooter, 5));
     // switchCameraSourceButton.whenPressed(new SwitchCameraCommand(CameraServer.getServer(), camField, camIntake));
   }
 
