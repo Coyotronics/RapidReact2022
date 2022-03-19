@@ -26,12 +26,16 @@ public class AutoSequence extends SequentialCommandGroup {
     // }
         addCommands(
             // new DriveTo(drive, -2)
-            // new Shoot(transport, shooter, 5)
-        //   ,  new DriveTo(drive, -1)
+            new Shoot(transport, shooter, 5),
+             new DriveTo(drive, -3)
 
-            new DriveTo(drive, -3),
-            new RotateTo(drive, 150),
-            new DriveAndIntake(drive, intake, transport, 3, 150)
+
+            // new DriveTo(drive, -3),
+            // new ReleaseIntake(drive),
+            // new RotateTo(drive, 160),
+            // new DriveAndIntake(drive, intake, transport, 3, 150)
+            
+
             // new RotateTo(drive, -150),
             // new DriveTo(drive, 6)
             // new Shoot(transport, shoot, 3)

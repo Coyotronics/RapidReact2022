@@ -9,10 +9,10 @@ import com.coyotronics.frc2022.commands.Auto.SubsytemInterfaces.DriveTo;
 public class ReleaseIntake extends SequentialCommandGroup{
     public ReleaseIntake(DriveBaseSubsystem db) {
         addCommands(
-            new DriveTo(db, 3),
-            new DriveTo(db, -3),
-            new DriveTo(db, 3),
-            new DriveTo(db, -3)
+            new DriveTo(db, -1.5),
+            new DriveTo(db, 1.5)
+            // new DriveTo(db, 1.5),
+            // new DriveTo(db, -1.5)
         );
     }
 }
