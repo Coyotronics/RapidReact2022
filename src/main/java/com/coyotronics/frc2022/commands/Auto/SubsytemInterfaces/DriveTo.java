@@ -6,7 +6,7 @@ import com.coyotronics.frc2022.subsystems.DriveBaseSubsystem;
 
 public class DriveTo extends CommandBase { //centimeters
     private final DriveBaseSubsystem driveBase;
-    private final double movePerThread =  0.037;
+    private final double movePerThread =  0.0405;
     private double speed = 0.25;
     private double radiusToMove;
     private double radiusMoved = 0;
@@ -31,14 +31,14 @@ public class DriveTo extends CommandBase { //centimeters
     }
     public void execute() {
         if(isDone()) return;
-        double speedMove = AUCSpeed(Math.abs(radiusToMove - radiusToMove));
+        double speedMove = AUCSpeed(Math.abs(radiusToMove - radiusMoved));
         if(radiusToMove > 0){
             this.driveBase.arcadeDriveAuto(-speedMove, 0);
-            radiusToMove += (speedMove / speed) * movePerThread;
+            radiusMoved += (speedMove / speed) * movePerThread;
         }
         else{
             this.driveBase.arcadeDriveAuto(speedMove, 0);
-            radiusToMove -= (speedMove / speed) * movePerThread;
+            radiusMoved -= (speedMove / speed) * movePerThread;
         }
     }
     public void end(boolean interrupted) {

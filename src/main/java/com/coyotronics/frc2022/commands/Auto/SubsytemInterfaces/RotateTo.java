@@ -4,7 +4,7 @@ import com.coyotronics.frc2022.subsystems.DriveBaseSubsystem;
 
 public class RotateTo extends CommandBase {
     private final DriveBaseSubsystem driveBase;
-    private final double rotatePerThread =  2.5;
+    private final double rotatePerThread =  1.15;
     private double speed = 0.25;
     private double degreesToRotate;
     private double degreesRotated = 0;

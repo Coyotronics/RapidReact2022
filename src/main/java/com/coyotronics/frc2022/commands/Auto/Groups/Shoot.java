@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class Shoot extends SequentialCommandGroup {
     public Shoot(TransportSubsystem ts, DischargeSubsystem ds, double seconds) { 
         addCommands(
-            new RunTransport(ts, 0.1, true),
+            // new RunTransport(ts, 0.1, true),
             new ParallelCommandGroup(
                 new RunDischarge(ds, seconds),
                 new RunTransport(ts, seconds, false)
