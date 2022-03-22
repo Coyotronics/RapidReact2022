@@ -15,7 +15,7 @@ package com.coyotronics.frc2022;
 public final class Constants {
     private Constants() {
         /* disallow construction of this class */
-        throw new UnsupportedOperationException("don't try to construct an instance of Constants");
+        throw new UnsupportedOperationException("don't try to construct an instance of Constants ok bro");
     }
 
     /**
@@ -86,5 +86,6 @@ public final class Constants {
     public static class Vars {
         public static Drive.DriveType cDriveType = Drive.DriveType.ARCADE;
         public static int cam = 0; //0 = field, 1 = intake
+
     }
 }

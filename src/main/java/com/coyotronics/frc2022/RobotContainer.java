@@ -64,7 +64,7 @@ public class RobotContainer {
   private final JoystickButton shooterTransportBackButton = new JoystickButton(controller, Constants.Controller.X);
   private final JoystickButton intakeButton = new JoystickButton(controller, Constants.Controller.Y);
   private final JoystickButton shootButton = new JoystickButton(controller, Constants.Controller.LEFT_BUMPER);
-  private final JoystickButton test = new JoystickButton(controller, Constants.Controller.A);
+  private final JoystickButton intakeAndTransportButton = new JoystickButton(controller, Constants.Controller.A);
   // private final JoystickButton shootButton = new JoystickButton(controller, Constants.Controller.A);
   // private final JoystickButton shooterStorageReverseButton = new JoystickButton(controller, Constants.Controller.BACK);
 
@@ -109,7 +109,7 @@ public class RobotContainer {
     shooterTransportButton.whenHeld(new StartEndCommand(this.transport::runFoward, this.transport::stop, this.transport));
     shooterTransportBackButton.whenHeld(new StartEndCommand(this.transport::runBackward, this.transport::stop, this.transport));
     intakeButton.whenHeld(new StartEndCommand(this.intake::run, this.intake::stop, this.intake));
-    test.whenPressed(new DriveTo(driveBase, 3));
+    intakeAndTransportButton.whenPressed(new DriveTo(driveBase, 3));
     shootButton.whenPressed(new Shoot(transport, shooter, 5));
     // switchCameraSourceButton.whenPressed(new SwitchCameraCommand(CameraServer.getServer(), camField, camIntake));
   }
