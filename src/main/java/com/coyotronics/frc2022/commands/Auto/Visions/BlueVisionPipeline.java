@@ -42,14 +42,14 @@ public class BlueVisionPipeline {
 
        for(int i = 0; i < contours.size(); ++i) {
             MatOfPoint contour = contours.get(i);
-            if(Imgproc.isContourConvex(contour)) {
+            // if(Imgproc.isContourConvex(contour)) {
 
                 Imgproc.drawContours(mat, contours, i, new Scalar(255, 255, 255), -1);
 
                 Rect boundRect = Imgproc.boundingRect(contour);
                 double centerX = boundRect.x + (boundRect.width / 2);
                 double centerY = boundRect.y + (boundRect.height / 2);
-            }
+            // }
         }
     }
     // public BlueVisionPipeline()

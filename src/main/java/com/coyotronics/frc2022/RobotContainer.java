@@ -58,7 +58,7 @@ public class RobotContainer {
 
   // private final JoystickButton switchDriveType = new JoystickButton(controller, Constants.Controller.X);
   private final JoystickButton shooterDischargeHighButton = new JoystickButton(controller, Constants.Controller.RIGHT_BUMPER);
-  // private final JoystickButton shooterDischargeLowButton = new JoystickButton(controller, Constants.Controller.LEFT_BUMPER);
+  private final JoystickButton shooterDischargeLowButton = new JoystickButton(controller, Constants.Controller.LEFT_BUMPER);
   // private final JoystickButton switchCameraSourceButton = new JoystickButton(controller, Constants.Controller.LEFT_BUMPER);
   private final JoystickButton shooterTransportButton = new JoystickButton(controller, Constants.Controller.B);
   private final JoystickButton shooterTransportBackButton = new JoystickButton(controller, Constants.Controller.X);
@@ -105,12 +105,13 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // switchDriveType.whenPressed(new SwitchDriveType(this.driveBase));
     shooterDischargeHighButton.whenHeld(new ShootCommand(this.shooter, Constants.Shooter.ShootType.HIGH));
-    // shooterDischargeLowButton.whenHeld(new ShootCommand(this.shooter, Constants.Shooter.ShootType.LOW));
+    shooterDischargeLowButton.whenHeld(new ShootCommand(this.shooter, Constants.Shooter.ShootType.LOW));
     shooterTransportButton.whenHeld(new StartEndCommand(this.transport::runFoward, this.transport::stop, this.transport));
     shooterTransportBackButton.whenHeld(new StartEndCommand(this.transport::runBackward, this.transport::stop, this.transport));
     intakeButton.whenHeld(new StartEndCommand(this.intake::run, this.intake::stop, this.intake));
     intakeAndTransportButton.whenPressed(new DriveTo(driveBase, 3));
-    shootButton.whenPressed(new Shoot(transport, shooter, 5));
+    // shootButton.whenPressed(new Shoot(transport, shooter, 5));
+    // shootButton.whenPressed(this.disc)
     // switchCameraSourceButton.whenPressed(new SwitchCameraCommand(CameraServer.getServer(), camField, camIntake));
   }
 

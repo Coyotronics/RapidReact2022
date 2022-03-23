@@ -18,7 +18,7 @@ public class RunDischarge extends CommandBase {
     public void initialize() {
         this.iterations = 0;
         this.discharge.reset();
-        this.discharge.shootDischarge(Constants.Shooter.kDischargeSpeedHighHub);
+        this.discharge.shootDischarge(Constants.Shooter.kDischargeSpeedLowHub);
     }
     public void execute() {
         ++iterations;

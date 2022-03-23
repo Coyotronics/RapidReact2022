@@ -1,18 +1,34 @@
 package com.coyotronics.frc2022.commands.Auto.Groups;
-
-import com.coyotronics.frc2022.subsystems.DriveBaseSubsystem;
+import com.coyotronics.frc2022.Constants.Drive;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import com.coyotronics.frc2022.subsystems.DriveBaseSubsystem;
 
-import com.coyotronics.frc2022.commands.Auto.SubsytemInterfaces.DriveTo;
-public class ReleaseIntake extends SequentialCommandGroup{
+public class ReleaseIntake extends CommandBase { //centimeters
+    private final DriveBaseSubsystem driveBase;
+    int iterations = 0;
     public ReleaseIntake(DriveBaseSubsystem db) {
-        addCommands(
-            new DriveTo(db, -1.5),
-            new DriveTo(db, 1.5)
-            // new DriveTo(db, 1.5),
-            // new DriveTo(db, -1.5)
-        );
+        this.driveBase = db;
+        addRequirements(this.driveBase);
+    }
+    public void initialize() {
+        iterations = 0;
+        this.driveBase.stop();    
+    }
+    public boolean isDone() {
+        return iterations > 30;
+    }
+    public void execute() {
+        ++iterations;
+        if(this.iterations > 15)
+            this.driveBase.arcadeDrive(-0.65, 0);
+        else
+            this.driveBase.arcadeDrive(0.65, 0);
+    }
+    public void end(boolean interrupted) {
+        this.driveBase.stop();
+    }
+     public boolean isFinished() {
+        return isDone();
     }
 }
