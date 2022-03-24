@@ -29,8 +29,9 @@ public class RedBallPipeline implements edu.wpi.first.vision.VisionPipeline {
 	//Outputs
 	private Mat blurOutput = new Mat();
 	private Mat rgbThresholdOutput = new Mat();
-	private Mat cvErodeOutput = new Mat();
+	private Mat cvDilateOutput = new Mat();
 	private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
+	private Mat maskOutput = new Mat();
 	private ArrayList<MatOfPoint> filterContoursOutput = new ArrayList<MatOfPoint>();
 
 	static {
@@ -44,43 +45,48 @@ public class RedBallPipeline implements edu.wpi.first.vision.VisionPipeline {
 		// Step Blur0:
 		Mat blurInput = source0;
 		BlurType blurType = BlurType.get("Box Blur");
-		double blurRadius = 11.711711711711711;
+		double blurRadius = 1.8018018018018018;
 		blur(blurInput, blurType, blurRadius, blurOutput);
 
 		// Step RGB_Threshold0:
 		Mat rgbThresholdInput = blurOutput;
-		double[] rgbThresholdRed = {94.01978417266187, 255.0};
-		double[] rgbThresholdGreen = {2.293165467625899, 105.63667232597624};
-		double[] rgbThresholdBlue = {0.0, 99.14261460101868};
+		double[] rgbThresholdRed = {42.15057177080524, 217.70114748958028};
+		double[] rgbThresholdGreen = {0.0, 66.26562629875045};
+		double[] rgbThresholdBlue = {0.0, 35.765469977473245};
 		rgbThreshold(rgbThresholdInput, rgbThresholdRed, rgbThresholdGreen, rgbThresholdBlue, rgbThresholdOutput);
 
-		// Step CV_erode0:
-		Mat cvErodeSrc = rgbThresholdOutput;
-		Mat cvErodeKernel = new Mat();
-		Point cvErodeAnchor = new Point(-1, -1);
-		double cvErodeIterations = 1.0;
-		int cvErodeBordertype = Core.BORDER_CONSTANT;
-		Scalar cvErodeBordervalue = new Scalar(-1);
-		cvErode(cvErodeSrc, cvErodeKernel, cvErodeAnchor, cvErodeIterations, cvErodeBordertype, cvErodeBordervalue, cvErodeOutput);
+		// Step CV_dilate0:
+		Mat cvDilateSrc = rgbThresholdOutput;
+		Mat cvDilateKernel = new Mat();
+		Point cvDilateAnchor = new Point(-1, -1);
+		double cvDilateIterations = 1.0;
+		int cvDilateBordertype = Core.BORDER_CONSTANT;
+		Scalar cvDilateBordervalue = new Scalar(-1);
+		cvDilate(cvDilateSrc, cvDilateKernel, cvDilateAnchor, cvDilateIterations, cvDilateBordertype, cvDilateBordervalue, cvDilateOutput);
 
 		// Step Find_Contours0:
-		Mat findContoursInput = cvErodeOutput;
+		Mat findContoursInput = cvDilateOutput;
 		boolean findContoursExternalOnly = false;
 		findContours(findContoursInput, findContoursExternalOnly, findContoursOutput);
 
+		// Step Mask0:
+		Mat maskInput = source0;
+		Mat maskMask = cvDilateOutput;
+		mask(maskInput, maskMask, maskOutput);
+
 		// Step Filter_Contours0:
 		ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;
-		double filterContoursMinArea = 10000.0;
-		double filterContoursMinPerimeter = 100.0;
-		double filterContoursMinWidth = 100.0;
+		double filterContoursMinArea = 250.0;
+		double filterContoursMinPerimeter = 25.0;
+		double filterContoursMinWidth = 25.0;
 		double filterContoursMaxWidth = 10000.0;
-		double filterContoursMinHeight = 100.0;
+		double filterContoursMinHeight = 25.0;
 		double filterContoursMaxHeight = 10000.0;
-		double[] filterContoursSolidity = {0, 100};
-		double filterContoursMaxVertices = 1000000;
-		double filterContoursMinVertices = 0;
+		double[] filterContoursSolidity = {49.33195877418243, 100};
+		double filterContoursMaxVertices = 1000000.0;
+		double filterContoursMinVertices = 0.0;
 		double filterContoursMinRatio = 0.8;
-		double filterContoursMaxRatio = 2.0;
+		double filterContoursMaxRatio = 1.2;
 		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput);
 
 	}
@@ -102,11 +108,11 @@ public class RedBallPipeline implements edu.wpi.first.vision.VisionPipeline {
 	}
 
 	/**
-	 * This method is a generated getter for the output of a CV_erode.
-	 * @return Mat output from CV_erode.
+	 * This method is a generated getter for the output of a CV_dilate.
+	 * @return Mat output from CV_dilate.
 	 */
-	public Mat cvErodeOutput() {
-		return cvErodeOutput;
+	public Mat cvDilateOutput() {
+		return cvDilateOutput;
 	}
 
 	/**
@@ -115,6 +121,14 @@ public class RedBallPipeline implements edu.wpi.first.vision.VisionPipeline {
 	 */
 	public ArrayList<MatOfPoint> findContoursOutput() {
 		return findContoursOutput;
+	}
+
+	/**
+	 * This method is a generated getter for the output of a Mask.
+	 * @return Mat output from Mask.
+	 */
+	public Mat maskOutput() {
+		return maskOutput;
 	}
 
 	/**
@@ -207,27 +221,27 @@ public class RedBallPipeline implements edu.wpi.first.vision.VisionPipeline {
 	}
 
 	/**
-	 * Expands area of lower value in an image.
-	 * @param src the Image to erode.
-	 * @param kernel the kernel for erosion.
+	 * Expands area of higher value in an image.
+	 * @param src the Image to dilate.
+	 * @param kernel the kernel for dilation.
 	 * @param anchor the center of the kernel.
-	 * @param iterations the number of times to perform the erosion.
+	 * @param iterations the number of times to perform the dilation.
 	 * @param borderType pixel extrapolation method.
 	 * @param borderValue value to be used for a constant border.
 	 * @param dst Output Image.
 	 */
-	private void cvErode(Mat src, Mat kernel, Point anchor, double iterations,
-		int borderType, Scalar borderValue, Mat dst) {
+	private void cvDilate(Mat src, Mat kernel, Point anchor, double iterations,
+	int borderType, Scalar borderValue, Mat dst) {
 		if (kernel == null) {
 			kernel = new Mat();
 		}
 		if (anchor == null) {
 			anchor = new Point(-1,-1);
 		}
-		if (borderValue == null) {
+		if (borderValue == null){
 			borderValue = new Scalar(-1);
 		}
-		Imgproc.erode(src, dst, kernel, anchor, (int)iterations, borderType, borderValue);
+		Imgproc.dilate(src, dst, kernel, anchor, (int)iterations, borderType, borderValue);
 	}
 
 	/**
@@ -250,6 +264,18 @@ public class RedBallPipeline implements edu.wpi.first.vision.VisionPipeline {
 		}
 		int method = Imgproc.CHAIN_APPROX_SIMPLE;
 		Imgproc.findContours(input, contours, hierarchy, mode, method);
+	}
+
+	/**
+	 * Filter out an area of an image using a binary mask.
+	 * @param input The image on which the mask filters.
+	 * @param mask The binary image that is used to filter.
+	 * @param output The image in which to store the output.
+	 */
+	private void mask(Mat input, Mat mask, Mat output) {
+		mask.convertTo(mask, CvType.CV_8UC1);
+		Core.bitwise_xor(output, output, output);
+		input.copyTo(output, mask);
 	}
 
 
