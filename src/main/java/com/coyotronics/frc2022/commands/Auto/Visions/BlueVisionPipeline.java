@@ -39,18 +39,23 @@ public class BlueVisionPipeline {
         ArrayList<MatOfPoint> contours = new ArrayList<MatOfPoint>();
         Mat heir = new Mat();
         Imgproc.findContours(mat, contours, heir, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_NONE);
-
+        Mat res = new Mat();
+        mat.copySize(res);
+        mat.copyTo(res);
        for(int i = 0; i < contours.size(); ++i) {
             MatOfPoint contour = contours.get(i);
             // if(Imgproc.isContourConvex(contour)) {
 
-                Imgproc.drawContours(mat, contours, i, new Scalar(255, 255, 255), -1);
-
+                Imgproc.drawContours(res, contours, i, new Scalar(255, 255, 255), -1);
+                
                 Rect boundRect = Imgproc.boundingRect(contour);
                 double centerX = boundRect.x + (boundRect.width / 2);
                 double centerY = boundRect.y + (boundRect.height / 2);
             // }
         }
+        CvSource outputStream = CameraServer.putVideo("Blur", 640, 480);
+        outputStream.putFrame(res);
+
     }
     // public BlueVisionPipeline()
 }

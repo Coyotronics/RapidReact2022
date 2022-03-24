@@ -23,6 +23,7 @@
             
 
 //             VisionThread visionThread = new VisionThread(camera, new FindBallBlue(), pipeline -> {
+
 //             });
 //             visionThread.start();
 //     }
