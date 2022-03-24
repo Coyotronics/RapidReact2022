@@ -22,6 +22,8 @@ import com.coyotronics.frc2022.subsystems.DriveBaseSubsystem;
 import com.coyotronics.frc2022.subsystems.GryoSubsystem;
 import com.coyotronics.frc2022.subsystems.IntakeSubsystem;
 import com.coyotronics.frc2022.subsystems.TransportSubsystem;
+import com.coyotronics.frc2022.commands.Auto.Visions.RedBallPipelineVTwo;
+
 
 import com.coyotronics.frc2022.commands.Auto.Visions.FindBallRed;
 
@@ -34,15 +36,36 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
+<<<<<<< HEAD
 import edu.wpi.first.vision.VisionThread;
+=======
+
+
+import org.opencv.core.Rect;
+import org.opencv.imgproc.Imgproc;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.vision.VisionRunner;
+import edu.wpi.first.vision.VisionThread;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+>>>>>>> daebd3ae3d1144746899b2450937b771e688c835
 
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Scalar;
+<<<<<<< HEAD
 import org.opencv.imgproc.Imgproc;
 
 import edu.wpi.first.cscore.CvSource;
 import org.opencv.core.Rect;
+=======
+import edu.wpi.first.cscore.CvSource;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+>>>>>>> daebd3ae3d1144746899b2450937b771e688c835
 // import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 
 /**
@@ -96,7 +119,13 @@ public class RobotContainer {
     setCameras();
     setDefaults();
     configureButtonBindings();
+<<<<<<< HEAD
     // CommandScheduler.getInstance().schedule(new FindBallRed(this.camField));
+=======
+
+    FindBallRed();
+   
+>>>>>>> daebd3ae3d1144746899b2450937b771e688c835
   }
   double since = 0;
   public void setCameras() {
@@ -118,6 +147,49 @@ public class RobotContainer {
   public void setDefaults() {
     driveBase.setDefaultCommand(drive);
     
+  }
+  Object imgLock = new Object();
+  public void FindBallRed() {
+    SmartDashboard.putNumber("CenterX", -4);
+    new Thread(() -> {
+      Mat res = new Mat();
+      CvSource outputStream = CameraServer.putVideo("VisionOutput", 640, 480);
+      SmartDashboard.putNumber("CenterX", -3);
+        while(!Thread.interrupted()) {
+            // try {
+            //   Thread.sleep(50);
+            // } catch (InterruptedException e) {}
+            VisionThread visionThread = new VisionThread(camField, new RedBallPipelineVTwo(), pipeline -> {
+              
+            if (!pipeline.filterContoursOutput().isEmpty()) {
+                MatOfPoint largst = pipeline.filterContoursOutput().get(0);
+                int index = 0;
+                SmartDashboard.putNumber("CenterX", -2);
+                for(int i = 0; i < pipeline.filterContoursOutput().size(); ++i) {
+                  MatOfPoint contour = pipeline.filterContoursOutput().get(i);
+                  if(Imgproc.contourArea(contour) > Imgproc.contourArea(largst)) {
+                    largst = contour;
+                    index = i;
+                  }
+                }
+                Imgproc.drawContours(res, pipeline.filterContoursOutput(), index, new Scalar(255, 255, 255), -1);
+                synchronized (imgLock) {
+                  Rect boundRect = Imgproc.boundingRect(largst);
+                  double centerX = boundRect.x + (boundRect.width / 2);
+                  double centerY = boundRect.y + (boundRect.height / 2);
+
+                  SmartDashboard.putNumber("CenterX", centerX);
+                  SmartDashboard.putNumber("CenterY", centerY);
+
+                  outputStream.putFrame(res);           
+                 }
+            } else {
+              SmartDashboard.putNumber("CenterX", -1);
+            }
+        });
+        visionThread.start();
+      }
+    }).start();
   }
   int cnt = 0;
 
