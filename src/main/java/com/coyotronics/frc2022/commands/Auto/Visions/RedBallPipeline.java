@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 package com.coyotronics.frc2022.commands.Auto.Visions;
 
 import java.io.File;
@@ -333,5 +333,3 @@ public class RedBallPipeline implements edu.wpi.first.vision.VisionPipeline {
 
 }
 
-=======
->>>>>>> daebd3ae3d1144746899b2450937b771e688c835

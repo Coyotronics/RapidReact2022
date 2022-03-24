@@ -15,28 +15,24 @@ import edu.wpi.first.vision.VisionRunner;
 import edu.wpi.first.vision.VisionThread;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-<<<<<<< HEAD
 import edu.wpi.first.cscore.CvSource;
 import org.opencv.core.Mat;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Scalar;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.Scalar;
+import edu.wpi.first.cscore.CvSource;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+
 public class FindBallRed extends CommandBase {
-    UsbCamera cam;
+        UsbCamera cam;
     Object imgLock;
     public FindBallRed(UsbCamera cam){
       this.cam = cam;
-=======
-import org.opencv.core.Mat;
-import org.opencv.core.MatOfPoint;
-import org.opencv.core.Scalar;
-import edu.wpi.first.cscore.CvSource;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-
-public class FindBallRed extends CommandBase {
-
     public FindBallRed(){
         UsbCamera camera = CameraServer.startAutomaticCapture();
         VisionThread visionThread = new VisionThread(camera, new RedBallPipelineVTwo(), pipeline -> {
@@ -59,7 +55,6 @@ public class FindBallRed extends CommandBase {
         });
         visionThread.start();
 
->>>>>>> daebd3ae3d1144746899b2450937b771e688c835
     }
     public void initialize() {
       imgLock = new Object();
