@@ -9,22 +9,33 @@ import com.coyotronics.frc2022.commands.Drive.SwitchDriveType;
 import com.coyotronics.frc2022.commands.Shooter.ShootCommand;
 import com.coyotronics.frc2022.commands.Auto.AutoSequence;
 import com.coyotronics.frc2022.commands.Auto.Groups.Shoot;
+
+import java.time.Period;
+import java.util.Currency;
+
 import com.coyotronics.frc2022.commands.SwitchCameraCommand;
 import com.coyotronics.frc2022.commands.Auto.SubsytemInterfaces.*;
+import com.coyotronics.frc2022.commands.Auto.Visions.FindBallRed;
+import com.coyotronics.frc2022.commands.Auto.Visions.RedBallPipeline;
 import com.coyotronics.frc2022.subsystems.DischargeSubsystem;
 import com.coyotronics.frc2022.subsystems.DriveBaseSubsystem;
+import com.coyotronics.frc2022.subsystems.GryoSubsystem;
 import com.coyotronics.frc2022.subsystems.IntakeSubsystem;
 import com.coyotronics.frc2022.subsystems.TransportSubsystem;
 import com.coyotronics.frc2022.commands.Auto.Visions.RedBallPipelineVTwo;
 
+import com.coyotronics.frc2022.commands.Auto.Visions.FindBallRed;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.vision.VisionThread;
 
 
 import org.opencv.core.Rect;
@@ -41,6 +52,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Scalar;
+
+import org.opencv.imgproc.Imgproc;
+
+import edu.wpi.first.cscore.CvSource;
+import org.opencv.core.Rect;
+import edu.wpi.first.cscore.CvSource;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.cscore.CvSource;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -64,6 +83,7 @@ public class RobotContainer {
   private final DischargeSubsystem shooter = new DischargeSubsystem();
   private final TransportSubsystem transport = new TransportSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
+  private final GryoSubsystem gryo = new GryoSubsystem();
   private UsbCamera camField;
   // private UsbCamera camIntake;
 
@@ -91,16 +111,20 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    System.out.print("STARTING");
     // Configure the button bindings
     setCameras();
     setDefaults();
     configureButtonBindings();
+    // CommandScheduler.getInstance().schedule(new FindBallRed(this.camField));
 
     FindBallRed();
    
   }
+  double since = 0;
   public void setCameras() {
     camField = CameraServer.startAutomaticCapture();
+    camField.setResolution(160, 120);
     // camIntake =  CameraServer.startAutomaticCapture(1);
     
     // camIntake.setResolution(10, 10);
@@ -116,6 +140,50 @@ public class RobotContainer {
   }
   public void setDefaults() {
     driveBase.setDefaultCommand(drive);
+    
+  }
+  Object imgLock = new Object();
+  public void FindBallRed() {
+    SmartDashboard.putNumber("CenterX", -4);
+    new Thread(() -> {
+      Mat res = new Mat();
+      CvSource outputStream = CameraServer.putVideo("VisionOutput", 640, 480);
+      SmartDashboard.putNumber("CenterX", -3);
+        while(!Thread.interrupted()) {
+            // try {
+            //   Thread.sleep(50);
+            // } catch (InterruptedException e) {}
+            VisionThread visionThread = new VisionThread(camField, new RedBallPipelineVTwo(), pipeline -> {
+              
+            if (!pipeline.filterContoursOutput().isEmpty()) {
+                MatOfPoint largst = pipeline.filterContoursOutput().get(0);
+                int index = 0;
+                SmartDashboard.putNumber("CenterX", -2);
+                for(int i = 0; i < pipeline.filterContoursOutput().size(); ++i) {
+                  MatOfPoint contour = pipeline.filterContoursOutput().get(i);
+                  if(Imgproc.contourArea(contour) > Imgproc.contourArea(largst)) {
+                    largst = contour;
+                    index = i;
+                  }
+                }
+                Imgproc.drawContours(res, pipeline.filterContoursOutput(), index, new Scalar(255, 255, 255), -1);
+                synchronized (imgLock) {
+                  Rect boundRect = Imgproc.boundingRect(largst);
+                  double centerX = boundRect.x + (boundRect.width / 2);
+                  double centerY = boundRect.y + (boundRect.height / 2);
+
+                  SmartDashboard.putNumber("CenterX", centerX);
+                  SmartDashboard.putNumber("CenterY", centerY);
+
+                  outputStream.putFrame(res);           
+                 }
+            } else {
+              SmartDashboard.putNumber("CenterX", -1);
+            }
+        });
+        visionThread.start();
+      }
+    }).start();
   }
   Object imgLock = new Object();
   public void FindBallRed() {
