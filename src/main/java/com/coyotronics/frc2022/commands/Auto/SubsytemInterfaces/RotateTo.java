@@ -9,14 +9,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RotateTo extends CommandBase {
     /** Creates a new TurnToNAngle. */
-    public double turnAngle = 0, currentAngle = 0;
+    public double turnAngle = 0, currentAngle = 0, tempAngle;
     private final DriveBaseSubsystem drivebase;
     private final GryoSubsystem gyro;
     double tolerance = 2;
     double kP = 0.03;
 
     public RotateTo(DriveBaseSubsystem driveBase, GryoSubsystem gyro, double angle) {
-        this.turnAngle = angle;
+        this.tempAngle = angle;
         this.drivebase = driveBase;
         this.gyro = gyro;
         addRequirements(driveBase);
@@ -27,7 +27,7 @@ public class RotateTo extends CommandBase {
     @Override
     public void initialize() {
         currentAngle = gyro.getAngle();
-        this.turnAngle = gyro.getAngle() - this.turnAngle;
+        this.turnAngle = gyro.getAngle() - this.tempAngle;
         drivebase.stop();
     }
 
