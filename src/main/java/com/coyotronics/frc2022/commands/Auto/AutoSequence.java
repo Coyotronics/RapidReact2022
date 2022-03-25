@@ -32,7 +32,7 @@ public class AutoSequence extends SequentialCommandGroup {
             new DriveTo(drive, gyro, -1),
             new RotateTo(drive, gyro, 180),
             new ReleaseIntake(drive),
-            new DriveAndIntake(drive, intake, gyro, transport, 8, 10),
+            // new DriveAndIntake(drive, intake, gyro, transport, 8, 10),
             new RotateTo(drive, gyro, 180),
             new DriveTo(drive, gyro, 9),
             new Shoot(transport, shooter, 5, Constants.Shooter.ShootType.HIGH)

@@ -15,7 +15,7 @@ public class DirectionalDrive  {
     // rotation = Util.MultiDeadBand(-rotation);
     
     if(Constants.ksafetyMode) {
-      rotation *= 0.6;
+      rotation *= 0.75;
       translation *= Constants.kSafetyMultiplier;
     }
 

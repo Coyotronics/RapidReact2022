@@ -16,8 +16,9 @@ import com.coyotronics.frc2022.Constants;
 public class OneBallAuto extends SequentialCommandGroup {
     public OneBallAuto(DriveBaseSubsystem drive, DischargeSubsystem shooter, IntakeSubsystem intake, TransportSubsystem transport, GryoSubsystem gyro) {
         addCommands(
-            new Shoot(transport, shooter, 3, Constants.Shooter.ShootType.HIGH),
-            new DriveTo(drive, gyro, -8)
+            // new DriveTo(drive, gyro, -2.5),
+            new Shoot(transport, shooter, 5, Constants.Shooter.ShootType.HIGH)
+            // new DriveTo(drive, gyro, -3)
         );
     }
 }

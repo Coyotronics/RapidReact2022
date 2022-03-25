@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import com.coyotronics.frc2022.subsystems.DriveBaseSubsystem;
 import com.coyotronics.frc2022.subsystems.GryoSubsystem;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveTo extends CommandBase { //centimeters
     private final DriveBaseSubsystem driveBase;
     private final double movePerThread =  0.0405;
@@ -37,17 +38,18 @@ public class DriveTo extends CommandBase { //centimeters
         return Math.abs(this.radiusMoved - this.radiusToMove) < (0.05);
     }
     public void execute() {
+        SmartDashboard.putString("Doing", "Driving");
         if(isDone()) return;
         double speedMove = AUCSpeed(Math.abs(radiusToMove - radiusMoved));
-        double error = -(gyro.getAngle() - initialAngle);
-        double correctPower = P * error;
+        // double error = -(gyro.getAngle() - initialAngle);
+        // double correctPower = P * error;
         if(radiusToMove > 0){
             radiusMoved += (speedMove / speed) * movePerThread;
-            driveBase.arcadeDrive(speedMove, correctPower);
+            driveBase.arcadeDriveAuto(-speedMove, 0);
         }
         else{
             radiusMoved -= (speedMove / speed) * movePerThread;
-            driveBase.arcadeDrive(-speedMove, correctPower);
+            driveBase.arcadeDriveAuto(speedMove, 0);
         }
     }
     public void end(boolean interrupted) {
