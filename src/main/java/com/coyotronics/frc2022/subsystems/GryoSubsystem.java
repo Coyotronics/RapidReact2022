@@ -40,7 +40,7 @@ public class GryoSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("Connected", this.gyro.isConnected());
-    SmartDashboard.putBoolean("Calibrated", this.gyro.isCalibrating());
+    SmartDashboard.putBoolean("Calibrated", !this.gyro.isCalibrating());
     SmartDashboard.putNumber("Rel Angle", this.gyro.getAngle());
   }
   @Override

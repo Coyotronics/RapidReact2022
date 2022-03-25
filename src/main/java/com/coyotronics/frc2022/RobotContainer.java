@@ -154,6 +154,7 @@ public class RobotContainer {
     m_Chooser.addOption("1 Ball Auto", m_oneBallAuto);
     m_Chooser.addOption("No Auto", m_emptyAuto);
     m_Chooser.addOption("No Auto", m_emptyAuto);
+    SmartDashboard.putData(m_Chooser);
     
   }
   Object imgLock = new Object();

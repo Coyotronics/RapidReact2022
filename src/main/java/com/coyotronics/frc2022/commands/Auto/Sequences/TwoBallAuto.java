@@ -15,14 +15,15 @@ import com.coyotronics.frc2022.Constants;
 public class TwoBallAuto extends SequentialCommandGroup {
     public TwoBallAuto(DriveBaseSubsystem drive, DischargeSubsystem shooter, IntakeSubsystem intake, TransportSubsystem transport, GryoSubsystem gyro) {
         addCommands(
-            new Shoot(transport, shooter, 3, Constants.Shooter.ShootType.HIGH),
-            new ReleaseIntake(drive),
-            new DriveTo(drive, gyro, -5),
-            new RotateTo(drive, gyro, 180),
-            new DriveAndIntake(drive, intake, gyro, transport, 5, 3),
-            new RotateTo(drive, gyro, 180),
-            new DriveTo(drive, gyro, 8),
-            new Shoot(transport, shooter, 3, Constants.Shooter.ShootType.HIGH)
+            // new Shoot(transport, shooter, 3, Constants.Shooter.ShootType.HIGH),
+            // new ReleaseIntake(drive),
+            // new DriveTo(drive, gyro, -5),
+            new RotateTo(drive, gyro, 90),
+            new RotateTo(drive, gyro, 90)
+            // new DriveAndIntake(drive, intake, gyro, transport, 5, 3),
+            // new RotateTo(drive, gyro, 180),
+            // new DriveTo(drive, gyro, 8),
+            // new Shoot(transport, shooter, 3, Constants.Shooter.ShootType.HIGH)
         );
     }
 }
