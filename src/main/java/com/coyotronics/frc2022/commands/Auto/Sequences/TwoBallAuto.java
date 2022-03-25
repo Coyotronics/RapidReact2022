@@ -19,7 +19,7 @@ public class TwoBallAuto extends SequentialCommandGroup {
             new ReleaseIntake(drive),
             new DriveTo(drive, gyro, -5),
             new RotateTo(drive, gyro, 180),
-            new DriveAndIntake(drive, intake, transport, 5, 3),
+            new DriveAndIntake(drive, intake, gyro, transport, 5, 3),
             new RotateTo(drive, gyro, 180),
             new DriveTo(drive, gyro, 8),
             new Shoot(transport, shooter, 3, Constants.Shooter.ShootType.HIGH)
