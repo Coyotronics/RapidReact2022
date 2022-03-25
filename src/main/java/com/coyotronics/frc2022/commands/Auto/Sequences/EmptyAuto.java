@@ -12,12 +12,9 @@ import com.coyotronics.frc2022.subsystems.IntakeSubsystem;
 import com.coyotronics.frc2022.subsystems.TransportSubsystem;
 import com.coyotronics.frc2022.subsystems.GryoSubsystem;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import com.coyotronics.frc2022.Constants;
-public class OneBallAuto extends SequentialCommandGroup {
-    public OneBallAuto(DriveBaseSubsystem drive, DischargeSubsystem shooter, IntakeSubsystem intake, TransportSubsystem transport, GryoSubsystem gyro) {
-        addCommands(
-            new Shoot(transport, shooter, 3, Constants.Shooter.ShootType.HIGH),
-            new DriveTo(drive, gyro, -8)
-        );
+
+public class EmptyAuto extends SequentialCommandGroup {
+    public EmptyAuto() {
+
     }
 }

@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 public class GryoSubsystem extends SubsystemBase {
   
   AHRS gyro;
-  int countt = 0;
 
   public GryoSubsystem() {
     try {
@@ -30,16 +29,18 @@ public class GryoSubsystem extends SubsystemBase {
   public double getAngle() {
     return this.gyro.getAngle();
   }
+  public void zeroOut() {
+    this.gyro.zeroYaw();
+  }
+  public AHRS getGyro() {
+    return this.gyro;
+  }
   
 
   @Override
   public void periodic() {
-    ++countt;
-    SmartDashboard.putBoolean("Sensed", this.gyro.isConnected());
-    SmartDashboard.putBoolean("True Test", true);
-
-    
-    SmartDashboard.putNumber("COunt", countt);
+    SmartDashboard.putBoolean("Connected", this.gyro.isConnected());
+    SmartDashboard.putBoolean("Calibrated", this.gyro.isCalibrating());
     SmartDashboard.putNumber("Rel Angle", this.gyro.getAngle());
   }
   @Override

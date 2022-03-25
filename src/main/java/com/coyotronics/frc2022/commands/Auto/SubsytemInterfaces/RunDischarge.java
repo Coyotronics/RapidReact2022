@@ -9,16 +9,18 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class RunDischarge extends CommandBase {
     private final DischargeSubsystem discharge;
     private double seconds;
+    private Constants.Shooter.ShootType type;
     int iterations = 0;
-    public RunDischarge(DischargeSubsystem ss, double seconds) {
+    public RunDischarge(DischargeSubsystem ss, double seconds, Constants.Shooter.ShootType type) {
         this.discharge = ss;
         this.seconds = seconds;
+        this.type = type;
         addRequirements(this.discharge);
     }
     public void initialize() {
         this.iterations = 0;
         this.discharge.reset();
-        this.discharge.shootDischarge(Constants.Shooter.kDischargeSpeedLowHub);
+        this.discharge.shootDischarge((type == Constants.Shooter.ShootType.HIGH) ? Constants.Shooter.kDischargeSpeedHighHub : Constants.Shooter.kDischargeSpeedLowHub);
     }
     public void execute() {
         ++iterations;

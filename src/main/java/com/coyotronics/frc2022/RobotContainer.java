@@ -9,6 +9,9 @@ import com.coyotronics.frc2022.commands.Drive.SwitchDriveType;
 import com.coyotronics.frc2022.commands.Shooter.ShootCommand;
 import com.coyotronics.frc2022.commands.Auto.AutoSequence;
 import com.coyotronics.frc2022.commands.Auto.Groups.Shoot;
+import com.coyotronics.frc2022.commands.Auto.Sequences.EmptyAuto;
+import com.coyotronics.frc2022.commands.Auto.Sequences.OneBallAuto;
+import com.coyotronics.frc2022.commands.Auto.Sequences.TwoBallAuto;
 
 import java.time.Period;
 import java.util.Currency;
@@ -28,9 +31,11 @@ import com.coyotronics.frc2022.commands.Auto.Visions.FindBallRed;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.cameraserver.CameraServer;
@@ -43,6 +48,7 @@ import org.opencv.imgproc.Imgproc;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.vision.VisionRunner;
@@ -92,7 +98,11 @@ public class RobotContainer {
   */
 
   ManualDrive drive = new ManualDrive(driveBase);
+  private final Command m_oneBallAuto = new OneBallAuto(driveBase, shooter, intake, transport, gryo);
+  private final Command m_twoBallAuto = new TwoBallAuto(driveBase, shooter, intake, transport, gryo);
+  private final Command m_emptyAuto = new EmptyAuto();
 
+  SendableChooser<Command> m_Chooser = new SendableChooser<>();
   /*
   BUTTONS
   */
@@ -140,50 +150,11 @@ public class RobotContainer {
   }
   public void setDefaults() {
     driveBase.setDefaultCommand(drive);
+    m_Chooser.setDefaultOption("2 Ball Auto", m_twoBallAuto);
+    m_Chooser.addOption("1 Ball Auto", m_oneBallAuto);
+    m_Chooser.addOption("No Auto", m_emptyAuto);
+    m_Chooser.addOption("No Auto", m_emptyAuto);
     
-  }
-  Object imgLock = new Object();
-  public void FindBallRed() {
-    SmartDashboard.putNumber("CenterX", -4);
-    new Thread(() -> {
-      Mat res = new Mat();
-      CvSource outputStream = CameraServer.putVideo("VisionOutput", 640, 480);
-      SmartDashboard.putNumber("CenterX", -3);
-        while(!Thread.interrupted()) {
-            // try {
-            //   Thread.sleep(50);
-            // } catch (InterruptedException e) {}
-            VisionThread visionThread = new VisionThread(camField, new RedBallPipelineVTwo(), pipeline -> {
-              
-            if (!pipeline.filterContoursOutput().isEmpty()) {
-                MatOfPoint largst = pipeline.filterContoursOutput().get(0);
-                int index = 0;
-                SmartDashboard.putNumber("CenterX", -2);
-                for(int i = 0; i < pipeline.filterContoursOutput().size(); ++i) {
-                  MatOfPoint contour = pipeline.filterContoursOutput().get(i);
-                  if(Imgproc.contourArea(contour) > Imgproc.contourArea(largst)) {
-                    largst = contour;
-                    index = i;
-                  }
-                }
-                Imgproc.drawContours(res, pipeline.filterContoursOutput(), index, new Scalar(255, 255, 255), -1);
-                synchronized (imgLock) {
-                  Rect boundRect = Imgproc.boundingRect(largst);
-                  double centerX = boundRect.x + (boundRect.width / 2);
-                  double centerY = boundRect.y + (boundRect.height / 2);
-
-                  SmartDashboard.putNumber("CenterX", centerX);
-                  SmartDashboard.putNumber("CenterY", centerY);
-
-                  outputStream.putFrame(res);           
-                 }
-            } else {
-              SmartDashboard.putNumber("CenterX", -1);
-            }
-        });
-        visionThread.start();
-      }
-    }).start();
   }
   Object imgLock = new Object();
   public void FindBallRed() {
@@ -240,10 +211,13 @@ public class RobotContainer {
     // switchDriveType.whenPressed(new SwitchDriveType(this.driveBase));
     shooterDischargeHighButton.whenHeld(new ShootCommand(this.shooter, Constants.Shooter.ShootType.HIGH));
     shooterDischargeLowButton.whenHeld(new ShootCommand(this.shooter, Constants.Shooter.ShootType.LOW));
+    // shooterDischargeHighButton.whenPressed(new Shoot(transport, shooter, 3, Constants.Shooter.ShootType.HIGH));
+    // shooterDischargeLowButton.whenPressed(new Shoot(transport, shooter, 3, Constants.Shooter.ShootType.LOW));
     shooterTransportButton.whenHeld(new StartEndCommand(this.transport::runFoward, this.transport::stop, this.transport));
     shooterTransportBackButton.whenHeld(new StartEndCommand(this.transport::runBackward, this.transport::stop, this.transport));
     intakeButton.whenHeld(new StartEndCommand(this.intake::run, this.intake::stop, this.intake));
-    intakeAndTransportButton.whenPressed(new DriveTo(driveBase, 3));
+    intakeAndTransportButton.whenPressed(new ParallelCommandGroup(new StartEndCommand(this.intake::run, this.intake::stop, this.intake),
+                                                                  new StartEndCommand(this.transport::run, this.transport::stop, transport)));
     // shootButton.whenPressed(new Shoot(transport, shooter, 5));
     // shootButton.whenPressed(this.disc)
     // switchCameraSourceButton.whenPressed(new SwitchCameraCommand(CameraServer.getServer(), camField, camIntake));
@@ -255,6 +229,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new AutoSequence(driveBase, shooter, intake, transport);
+    return m_Chooser.getSelected();
   }
 }

@@ -29,31 +29,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class FindBallRed extends CommandBase {
-        UsbCamera cam;
+      UsbCamera cam;
     Object imgLock;
     public FindBallRed(UsbCamera cam){
       this.cam = cam;
+    }
     public FindBallRed(){
-        UsbCamera camera = CameraServer.startAutomaticCapture();
-        VisionThread visionThread = new VisionThread(camera, new RedBallPipelineVTwo(), pipeline -> {
-            Mat res = new Mat();
-            if (!pipeline.filterContoursOutput().isEmpty()) {
-                for(int i = 0; i < pipeline.filterContoursOutput().size(); ++i) {
-                    MatOfPoint contour = pipeline.filterContoursOutput().get(i);
-                    Imgproc.drawContours(res, pipeline.filterContoursOutput(), i, new Scalar(255, 255, 255), -1);
-                    
-                    Rect boundRect = Imgproc.boundingRect(contour);
-                    double centerX = boundRect.x + (boundRect.width / 2);
-                    double centerY = boundRect.y + (boundRect.height / 2);
-
-                    SmartDashboard.putNumber("CenterX", centerX);
-                    SmartDashboard.putNumber("CenterY", centerY);
-                }
-            }
-            CvSource outputStream = CameraServer.putVideo("VisionOutput", 640, 480);
-            outputStream.putFrame(res);
-        });
-        visionThread.start();
 
     }
     public void initialize() {
