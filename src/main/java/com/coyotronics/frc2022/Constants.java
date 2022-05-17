@@ -25,7 +25,7 @@ public final class Constants {
      */
     public static final boolean kCompetitionMode = false;
     public static final boolean ksafetyMode = true; 
-    public static final double kSafetyMultiplier = 0.75; //MAKE SURE BETWEEN 0 AND 1
+    public static final double kSafetyMultiplier = 0.25; //MAKE SURE BETWEEN 0 AND 1
     
     public static class Controller {
         public static final int LEFT_STICK_X = 0; // foward
@@ -61,7 +61,8 @@ public final class Constants {
         public static final double kIntakeSpeed = 0.5;
     }
     public static class Shooter {
-        public static final int kStorageMotor = 20;
+        public static final int kStorageMotor = 20; //now climb
+        public static final int kTransportMotor = 21;
         public static final int kDischargeMotor = 19;
         public static final double kReductionMultiplier = 0.3;
         public static final double kTransportSpeed = 0.4;

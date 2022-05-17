@@ -16,7 +16,7 @@ public class RotateTo extends CommandBase {
     double kP = 0.03;
     int numclear = 0;
     public RotateTo(DriveBaseSubsystem driveBase, GryoSubsystem gyro, double angle) {
-        this.tempAngle = angle + 5;
+        this.tempAngle = angle;
         this.drivebase = driveBase;
         this.gyro = gyro;
         addRequirements(driveBase, gyro);
@@ -42,7 +42,7 @@ public class RotateTo extends CommandBase {
         double error = turnAngle - currentAngle;
         double speed;
         speed = kP * error;
-        speed = MathUtil.clamp(speed, -0.25, 0.25);
+        speed = MathUtil.clamp(speed, -0.5, 0.5);
         drivebase.arcadeDriveAuto(0, -speed);
 
     }

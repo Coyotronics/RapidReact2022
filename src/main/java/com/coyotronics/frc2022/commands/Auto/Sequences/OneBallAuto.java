@@ -17,7 +17,7 @@ public class OneBallAuto extends SequentialCommandGroup {
     public OneBallAuto(DriveBaseSubsystem drive, DischargeSubsystem shooter, IntakeSubsystem intake, TransportSubsystem transport, GryoSubsystem gyro) {
         addCommands(
             // new DriveTo(drive, gyro, -2.5),
-            new Shoot(transport, shooter, 5, Constants.Shooter.ShootType.HIGH)
+            new Shoot(transport, shooter, 4.5, Constants.Shooter.ShootType.HIGH)
             // new DriveTo(drive, gyro, -3)
         );
     }

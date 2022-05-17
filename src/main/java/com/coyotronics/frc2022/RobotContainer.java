@@ -5,21 +5,12 @@
 package com.coyotronics.frc2022;
 
 import com.coyotronics.frc2022.commands.Drive.ManualDrive;
-import com.coyotronics.frc2022.commands.Drive.SwitchDriveType;
 import com.coyotronics.frc2022.commands.Shooter.ShootCommand;
-import com.coyotronics.frc2022.commands.Auto.AutoSequence;
 import com.coyotronics.frc2022.commands.Auto.Groups.Shoot;
 import com.coyotronics.frc2022.commands.Auto.Sequences.EmptyAuto;
 import com.coyotronics.frc2022.commands.Auto.Sequences.OneBallAuto;
 import com.coyotronics.frc2022.commands.Auto.Sequences.TwoBallAuto;
 
-import java.time.Period;
-import java.util.Currency;
-
-import com.coyotronics.frc2022.commands.SwitchCameraCommand;
-import com.coyotronics.frc2022.commands.Auto.SubsytemInterfaces.*;
-import com.coyotronics.frc2022.commands.Auto.Visions.FindBallRed;
-import com.coyotronics.frc2022.commands.Auto.Visions.RedBallPipeline;
 import com.coyotronics.frc2022.subsystems.DischargeSubsystem;
 import com.coyotronics.frc2022.subsystems.DriveBaseSubsystem;
 import com.coyotronics.frc2022.subsystems.GryoSubsystem;
@@ -27,14 +18,12 @@ import com.coyotronics.frc2022.subsystems.IntakeSubsystem;
 import com.coyotronics.frc2022.subsystems.TransportSubsystem;
 import com.coyotronics.frc2022.commands.Auto.Visions.RedBallPipelineVTwo;
 
-import com.coyotronics.frc2022.commands.Auto.Visions.FindBallRed;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -45,15 +34,6 @@ import edu.wpi.first.vision.VisionThread;
 
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
-import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.vision.VisionRunner;
-import edu.wpi.first.vision.VisionThread;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -62,13 +42,6 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
 import edu.wpi.first.cscore.CvSource;
-import org.opencv.core.Rect;
-import edu.wpi.first.cscore.CvSource;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.cscore.CvSource;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 
 /**
@@ -87,9 +60,9 @@ public class RobotContainer {
   public static XboxController controller = new XboxController(Constants.Common.kController);
   private final DriveBaseSubsystem driveBase = new DriveBaseSubsystem();
   private final DischargeSubsystem shooter = new DischargeSubsystem();
-  private final TransportSubsystem transport = new TransportSubsystem();
+  private final TransportSubsystem transport = new TransportSubsystem(Constants.Shooter.kTransportMotor, Constants.Shooter.kTransportSpeed);
   private final IntakeSubsystem intake = new IntakeSubsystem();
-  private final GryoSubsystem gryo = new GryoSubsystem();
+  // private final GryoSubsystem gryo = new GryoSubsystem();
   private UsbCamera camField;
   // private UsbCamera camIntake;
 
@@ -98,8 +71,8 @@ public class RobotContainer {
   */
 
   ManualDrive drive = new ManualDrive(driveBase);
-  private final Command m_oneBallAuto = new OneBallAuto(driveBase, shooter, intake, transport, gryo);
-  private final Command m_twoBallAuto = new TwoBallAuto(driveBase, shooter, intake, transport, gryo);
+  // private final Command m_oneBallAuto = new OneBallAuto(driveBase, shooter, intake, transport, gryo);
+  // private final Command m_twoBallAuto = new TwoBallAuto(driveBase, shooter, intake, transport, gryo);
   private final Command m_emptyAuto = new EmptyAuto();
 
   SendableChooser<Command> m_Chooser = new SendableChooser<>();
@@ -108,27 +81,27 @@ public class RobotContainer {
   */
 
   // private final JoystickButton switchDriveType = new JoystickButton(controller, Constants.Controller.X);
-  private final JoystickButton shooterDischargeHighButton = new JoystickButton(controller, Constants.Controller.RIGHT_BUMPER);
-  private final JoystickButton shooterDischargeLowButton = new JoystickButton(controller, Constants.Controller.LEFT_BUMPER);
+  private final JoystickButton shooterDischargeHighButton = new JoystickButton(controller, Constants.Controller.LEFT_BUMPER);
+  private final JoystickButton shooterDischargeLowButton = new JoystickButton(controller, Constants.Controller.RIGHT_BUMPER);
   // private final JoystickButton switchCameraSourceButton = new JoystickButton(controller, Constants.Controller.LEFT_BUMPER);
   private final JoystickButton shooterTransportButton = new JoystickButton(controller, Constants.Controller.B);
   private final JoystickButton shooterTransportBackButton = new JoystickButton(controller, Constants.Controller.X);
   private final JoystickButton intakeButton = new JoystickButton(controller, Constants.Controller.Y);
-  private final JoystickButton shootButton = new JoystickButton(controller, Constants.Controller.LEFT_BUMPER);
-  private final JoystickButton intakeAndTransportButton = new JoystickButton(controller, Constants.Controller.A);
-  // private final JoystickButton shootButton = new JoystickButton(controller, Constants.Controller.A);
-  // private final JoystickButton shooterStorageReverseButton = new JoystickButton(controller, Constants.Controller.BACK);
+  private final JoystickButton newTransportButton = new JoystickButton(controller, Constants.Controller.A);
+  // private final JoystickButton shootButton = new JoystickButton(controller, Constants.Controller.LEFT_BUMPER);
+  // private final JoystickButton intakeAndTransportButton = new JoystickButton(controller, Constants.Controller.B);
+  // private final JoystickButton shootButton = new JoystickButton(controller, Constants.Controller.RIGHT_BUMPER);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     System.out.print("STARTING");
     // Configure the button bindings
-    setCameras();
+    // setCameras();
     setDefaults();
     configureButtonBindings();
     // CommandScheduler.getInstance().schedule(new FindBallRed(this.camField));
 
-    FindBallRed();
+    // FindBallRed();
    
   }
   double since = 0;
@@ -150,8 +123,8 @@ public class RobotContainer {
   }
   public void setDefaults() {
     driveBase.setDefaultCommand(drive);
-    m_Chooser.setDefaultOption("2 Ball Auto", m_twoBallAuto);
-    m_Chooser.addOption("1 Ball Auto", m_oneBallAuto);
+    // m_Chooser.setDefaultOption("2 Ball Auto", m_twoBallAuto);
+    // m_Chooser.addOption("1 Ball Auto", m_oneBallAuto);
     m_Chooser.addOption("No Auto", m_emptyAuto);
     m_Chooser.addOption("No Auto", m_emptyAuto);
     SmartDashboard.putData(m_Chooser);
@@ -214,12 +187,12 @@ public class RobotContainer {
     shooterDischargeLowButton.whenHeld(new ShootCommand(this.shooter, Constants.Shooter.ShootType.LOW));
     // shooterDischargeHighButton.whenPressed(new Shoot(transport, shooter, 3, Constants.Shooter.ShootType.HIGH));
     // shooterDischargeLowButton.whenPressed(new Shoot(transport, shooter, 3, Constants.Shooter.ShootType.LOW));
-    shooterTransportButton.whenHeld(new StartEndCommand(this.transport::runFoward, this.transport::stop, this.transport));
-    shooterTransportBackButton.whenHeld(new StartEndCommand(this.transport::runBackward, this.transport::stop, this.transport));
+    shooterTransportButton.whenHeld(new StartEndCommand(this.transport::run, this.transport::stop, this.transport));
+    shooterTransportBackButton.whenHeld(new StartEndCommand(this.transport::run, this.transport::stop, this.transport));
     intakeButton.whenHeld(new StartEndCommand(this.intake::run, this.intake::stop, this.intake));
-    intakeAndTransportButton.whenPressed(new ParallelCommandGroup(new StartEndCommand(this.intake::run, this.intake::stop, this.intake),
-                                                                  new StartEndCommand(this.transport::run, this.transport::stop, transport)));
-    // shootButton.whenPressed(new Shoot(transport, shooter, 5));
+    // intakeAndTransportButton.whenPressed(new ParallelCommandGroup(new StartEndCommand(this.intake::run, this.intake::stop, this.intake),
+                                                                  // new StartEndCommand(this.transport::run, this.transport::stop, transport)));
+    // shootButton.whenPressed(new Shoot(transport, shooter, 3, Constants.Shooter.ShootType.HIGH, true));
     // shootButton.whenPressed(this.disc)
     // switchCameraSourceButton.whenPressed(new SwitchCameraCommand(CameraServer.getServer(), camField, camIntake));
   }

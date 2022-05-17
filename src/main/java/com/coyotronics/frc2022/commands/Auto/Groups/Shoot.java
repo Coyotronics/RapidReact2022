@@ -24,4 +24,16 @@ public class Shoot extends SequentialCommandGroup {
             )
         );
     }
+    public Shoot(TransportSubsystem ts, DischargeSubsystem ds, double seconds, Constants.Shooter.ShootType type, boolean runback) {
+        addCommands(
+            new ParallelCommandGroup(
+                new RunDischarge(ds, seconds - 2, Constants.Shooter.ShootType.HIGH),
+                new RunTransport(ts, seconds - 2, true)
+            ),
+            new ParallelCommandGroup(
+                new RunDischarge(ds, 2, Constants.Shooter.ShootType.HIGH),
+                new RunTransport(ts, 2, false)
+            )
+        );
+    }
 }

@@ -8,8 +8,8 @@ import com.coyotronics.frc2022.subsystems.GryoSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveTo extends CommandBase { //centimeters
     private final DriveBaseSubsystem driveBase;
-    private final double movePerThread =  0.0405;
-    private double speed = 0.25;
+    private final double movePerThread =  0.0405 * 2;
+    private double speed = 0.25 * 2;
     private double radiusToMove;
     private double radiusMoved = 0;
     double initialAngle = 0;

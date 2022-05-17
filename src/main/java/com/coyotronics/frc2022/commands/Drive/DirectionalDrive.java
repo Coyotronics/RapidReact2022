@@ -15,8 +15,8 @@ public class DirectionalDrive  {
     // rotation = Util.MultiDeadBand(-rotation);
     
     if(Constants.ksafetyMode) {
-      rotation *= 0.75;
-      translation *= Constants.kSafetyMultiplier;
+      rotation *= 0.7;
+      translation *= .825;
     }
 
     // SmartDashboard.putNumber("TIME", System.currentTimeMillis());
