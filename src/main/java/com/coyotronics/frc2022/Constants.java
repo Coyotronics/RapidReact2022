@@ -74,10 +74,10 @@ public final class Constants {
         }
     }
     public static class Drive {
-        public static final int kRightFrontMotor = 13;
-        public static final int kRightBackMotor = 12;
-        public static final int kLeftFrontMotor = 14;
-        public static final int kLeftBackMotor = 15;
+        public static final int kRightFrontMotor = 3;
+        public static final int kRightBackMotor = 2;
+        public static final int kLeftFrontMotor = 4;
+        public static final int kLeftBackMotor = 1;
 
         public enum DriveType {
             ARCADE, TANK;

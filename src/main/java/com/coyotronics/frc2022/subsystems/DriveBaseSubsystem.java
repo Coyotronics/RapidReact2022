@@ -13,28 +13,31 @@ import com.coyotronics.frc2022.Constants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 public class DriveBaseSubsystem extends SubsystemBase {
     private DifferentialDrive differentialDrive;
 
-    private CANSparkMax m_rightFrontMotor;
-    private CANSparkMax m_rightBackMotor;
-    private CANSparkMax m_leftFrontMotor; 
-    private CANSparkMax m_leftBackMotor;
+    private TalonSRX m_rightFrontMotor;
+    private TalonSRX m_rightBackMotor;
+    private TalonSRX m_leftFrontMotor; 
+    private TalonSRX m_leftBackMotor;
 
     private MotorControllerGroup leftMotors;
     private MotorControllerGroup rightMotors;
 
   public DriveBaseSubsystem() {
-    m_leftFrontMotor = new CANSparkMax(Constants.Drive.kLeftFrontMotor, MotorType.kBrushed);
-    m_leftBackMotor = new CANSparkMax(Constants.Drive.kLeftBackMotor, MotorType.kBrushed);
-    m_rightFrontMotor = new CANSparkMax(Constants.Drive.kRightFrontMotor, MotorType.kBrushed);
-    m_rightBackMotor = new CANSparkMax(Constants.Drive.kRightBackMotor, MotorType.kBrushed);
+    m_leftFrontMotor = new TalonSRX(Constants.Drive.kLeftFrontMotor);
+    m_leftBackMotor = new TalonSRX(Constants.Drive.kLeftBackMotor);
+    m_rightFrontMotor = new TalonSRX(Constants.Drive.kRightFrontMotor);
+    m_rightBackMotor = new TalonSRX(Constants.Drive.kRightBackMotor);
 
-    CANSparkMax[] motors = {m_leftFrontMotor, m_leftBackMotor, m_rightFrontMotor, m_rightBackMotor}; //first 2 = left, second 2 = right;
+    TalonSRX[] motors = {m_leftFrontMotor, m_leftBackMotor, m_rightFrontMotor, m_rightBackMotor}; //first 2 = left, second 2 = right;
 
-    for(CANSparkMax motor : motors){
-      motor.restoreFactoryDefaults();
-    }
+    // for(CANSparkMax motor : motors){
+    //   motor.restoreFactoryDefaults();
+    // }
 
     //group motors
     leftMotors = new MotorControllerGroup(m_leftFrontMotor, m_leftBackMotor);
